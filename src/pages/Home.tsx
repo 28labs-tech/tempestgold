@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -7,7 +7,6 @@ import {
   Building,
   DollarSign,
   Star,
-  Award,
   Users,
   Zap,
   MapPin,
@@ -18,6 +17,7 @@ import {
 import { motion } from 'framer-motion';
 import { properties, blogPosts, botswanaLocations, propertyTypes, priceRanges, sizeRanges } from '../data/mockData';
 import { PropertyCard } from '../components/PropertyCard';
+import { SeoHead } from '../components/SeoHead';
 
 export function Home() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export function Home() {
   const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   
-  const [openDropdown, setOpenDropdown] = useState<'location' | 'type' | 'price' | 'size' | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<'location' | 'type' | 'price' | 'size' | 'mobile' | null>(null);
   const [alignRight, setAlignRight] = useState<Set<string>>(new Set());
 
   const searchBarRef = useRef<HTMLDivElement>(null);
@@ -94,50 +94,36 @@ export function Home() {
 
   return (
     <div className="w-full min-h-screen bg-black-primary">
+      <SeoHead
+        title="Tempest Gold - Luxury Property Research Platform"
+        description="Discover exceptional luxury properties worldwide. Curated estates, market intelligence, and private advisory for discerning clientele. Where luxury meets legacy."
+        url="/"
+      />
       {/* HERO SECTION */}
-      <section className="relative h-screen w-full flex items-center justify-center">
+      <section className="relative min-h-screen w-full flex items-center justify-center py-24 md:py-0">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920"
+            src="/images/hero-bg.jpg"
             alt="Luxury Property"
             className="w-full h-full object-cover opacity-60" />
           
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black-primary" />
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 md:px-12 flex flex-col items-center text-center mt-20">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-12 flex flex-col items-start sm:items-center text-left sm:text-center mt-12 sm:mt-16 md:mt-20">
           <motion.span
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              duration: 0.6
-            }}
-            className="text-gold-primary uppercase tracking-[0.2em] text-sm font-medium mb-6">
-            
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-gold-primary uppercase tracking-[0.2em] text-sm sm:text-sm font-medium mb-4 sm:mb-6">
             The Pinnacle of Living
           </motion.span>
 
           <motion.h1
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 0.2
-            }}
-            className="font-serif text-5xl md:text-7xl lg:text-8xl text-white-accent mb-8 max-w-5xl leading-tight">
-            
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-white-accent mb-6 sm:mb-8 max-w-5xl leading-tight px-2 sm:px-0">
             Discover{' '}
             <span className="text-transparent bg-clip-text bg-gold-gradient">
               Exceptional
@@ -146,27 +132,164 @@ export function Home() {
           </motion.h1>
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 0.4
-            }}
-            className="w-full max-w-5xl mx-auto px-4">
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="w-full max-w-5xl mx-auto px-0 sm:px-4">
             
-            {/* Simple Search Bar */}
-            <div ref={searchBarRef} className="bg-white-accent rounded-full p-2 flex items-center shadow-2xl gap-1">
+            {/* Search Wrapper */}
+            <div ref={searchBarRef} className="w-full">
+            
+            {/* Mobile Search */}
+            <div className="sm:hidden flex flex-col">
+              {/* Collapsed Bar */}
+              <div className="flex items-center bg-white-accent">
+                <button
+                  onClick={() => setOpenDropdown(openDropdown === 'mobile' ? null : 'mobile')}
+                  className="bg-gold-primary hover:bg-gold-secondary transition-colors text-black-primary p-4 flex items-center justify-center shrink-0">
+                  <Search size={20} />
+                </button>
+                <button
+                  onClick={() => setOpenDropdown(openDropdown === 'mobile' ? null : 'mobile')}
+                  className="flex-1 px-4 py-3 text-left">
+                  <span className="text-sm text-black-primary/50">
+                    {selectedLocation || selectedType || selectedPrice || selectedSize
+                      ? [selectedLocation, selectedType, selectedPrice, selectedSize].filter(Boolean).join(' · ')
+                      : 'Tap to search properties'}
+                  </span>
+                </button>
+              </div>
+
+              {/* Expanded Form Panel */}
+              {openDropdown === 'mobile' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="bg-black/95 backdrop-blur-2xl border border-t-0 border-white/15 z-[100] overflow-hidden">
+                  <div className="p-5 space-y-6 max-h-[65vh] overflow-y-auto">
+
+                    {/* Header */}
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-serif text-lg text-white-accent">Refine Your Search</h3>
+                      <button
+                        type="button"
+                        onClick={() => setOpenDropdown(null)}
+                        className="text-gray-light hover:text-gold-primary transition-colors">
+                        <X size={20} />
+                      </button>
+                    </div>
+
+                    {/* Location */}
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-2 text-gold-primary text-xs font-bold uppercase tracking-wider">
+                        <MapPin size={14} /> Location
+                      </label>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {botswanaLocations.map((loc) => (
+                          <button
+                            key={loc.id}
+                            onClick={() => setSelectedLocation(selectedLocation === loc.name ? null : loc.name)}
+                            className={`text-left px-3 py-2.5 border text-xs font-medium transition-all ${
+                              selectedLocation === loc.name
+                                ? 'border-gold-primary bg-gold-primary/10 text-gold-primary'
+                                : 'border-white/10 text-white-accent hover:border-white/25'
+                            }`}>
+                            {loc.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Property Type */}
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-2 text-gold-primary text-xs font-bold uppercase tracking-wider">
+                        <Building size={14} /> Property Type
+                      </label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {propertyTypes.map((type) => (
+                          <button
+                            key={type.id}
+                            onClick={() => setSelectedType(selectedType === type.name ? null : type.name)}
+                            className={`px-4 py-2 border text-xs font-medium transition-all ${
+                              selectedType === type.name
+                                ? 'border-gold-primary bg-gold-primary text-black-primary'
+                                : 'border-white/10 text-gray-light hover:border-white/25'
+                            }`}>
+                            {type.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Budget */}
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-2 text-gold-primary text-xs font-bold uppercase tracking-wider">
+                        <DollarSign size={14} /> Budget
+                      </label>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {priceRanges.map((range) => (
+                          <button
+                            key={range.id}
+                            onClick={() => setSelectedPrice(selectedPrice === range.name ? null : range.name)}
+                            className={`px-3 py-2.5 border text-xs font-medium text-left transition-all ${
+                              selectedPrice === range.name
+                                ? 'border-gold-primary bg-gold-primary/10 text-gold-primary'
+                                : 'border-white/10 text-gray-light hover:border-white/25'
+                            }`}>
+                            {range.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Size */}
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-2 text-gold-primary text-xs font-bold uppercase tracking-wider">
+                        <Zap size={14} /> Size
+                      </label>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {sizeRanges.map((range) => (
+                          <button
+                            key={range.id}
+                            onClick={() => setSelectedSize(selectedSize === range.name ? null : range.name)}
+                            className={`px-3 py-2.5 border text-xs font-medium text-left transition-all ${
+                              selectedSize === range.name
+                                ? 'border-gold-primary bg-gold-primary/10 text-gold-primary'
+                                : 'border-white/10 text-gray-light hover:border-white/25'
+                            }`}>
+                            {range.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex gap-3 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => { setSelectedLocation(null); setSelectedType(null); setSelectedPrice(null); setSelectedSize(null); }}
+                        className="px-4 py-3 border border-white/15 text-gray-light text-xs font-medium uppercase tracking-wider hover:text-white-accent hover:border-white/30 transition-colors">
+                        Clear
+                      </button>
+                      <button
+                        onClick={() => { handleSearch(); setOpenDropdown(null); }}
+                        className="flex-1 bg-gold-primary text-black-primary font-bold py-3 text-sm uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2">
+                        <Search size={16} /> Search Properties
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Desktop Search Bar */}
+            <div className="hidden sm:flex bg-white-accent items-center gap-1 pl-2">
               {/* Location Dropdown */}
               <div ref={locationRef} className="flex-1 relative">
                 <button
                   onClick={() => setOpenDropdown(openDropdown === 'location' ? null : 'location')}
-                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black-primary/5 transition-colors text-left">
+                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black/5 transition-colors text-left">
                   <MapPin size={16} className="text-black-primary/70 mr-2" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-wider opacity-70">Location</span>
@@ -178,7 +301,7 @@ export function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`absolute top-full mt-3 w-96 bg-white-accent border border-gold-primary/50 rounded-xl shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('location') ? 'right-0' : 'left-0'}`}>
+                    className={`absolute top-full mt-0 w-96 bg-black/95 backdrop-blur-2xl border border-white/15 shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('location') ? 'right-0' : 'left-0'}`}>
                     {botswanaLocations.map((loc) => (
                       <button
                         key={loc.id}
@@ -186,11 +309,11 @@ export function Home() {
                           setSelectedLocation(loc.name);
                           setOpenDropdown(null);
                         }}
-                        className={`w-full text-left p-4 border-b border-gray-dark/20 hover:bg-gold-primary/10 transition-colors flex gap-3 ${selectedLocation === loc.name ? 'bg-gold-primary/15 border-l-4 border-l-gold-primary' : ''}`}>
-                        <img src={loc.image} alt={loc.name} className="w-12 h-12 rounded object-cover shrink-0" />
+                        className={`w-full text-left p-4 border-b border-white/10 hover:bg-gold-primary/10 transition-colors flex gap-3 ${selectedLocation === loc.name ? 'bg-gold-primary/10 border-l-2 border-l-gold-primary' : ''}`}>
+                        <img src={loc.image} alt={loc.name} className="w-12 h-12 object-cover shrink-0" />
                         <div className="flex-1">
-                          <h4 className="text-black-primary font-medium text-sm">{loc.name}</h4>
-                          <p className="text-gray-dark text-xs line-clamp-1">{loc.description}</p>
+                          <h4 className="text-white-accent font-medium text-sm">{loc.name}</h4>
+                          <p className="text-gray-light text-xs line-clamp-1">{loc.description}</p>
                         </div>
                         {selectedLocation === loc.name && <CheckCircle size={16} className="text-gold-primary flex-shrink-0 mt-2" />}
                       </button>
@@ -205,7 +328,7 @@ export function Home() {
               <div ref={typeRef} className="flex-1 relative">
                 <button
                   onClick={() => setOpenDropdown(openDropdown === 'type' ? null : 'type')}
-                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black-primary/5 transition-colors text-left">
+                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black/5 transition-colors text-left">
                   <Building size={16} className="text-black-primary/70 mr-2" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-wider opacity-70">Type</span>
@@ -217,7 +340,7 @@ export function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`absolute top-full mt-3 w-96 bg-white-accent border border-gold-primary/50 rounded-xl shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('type') ? 'right-0' : 'left-0'}`}>
+                    className={`absolute top-full mt-0 w-96 bg-black/95 backdrop-blur-2xl border border-white/15 shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('type') ? 'right-0' : 'left-0'}`}>
                     {propertyTypes.map((type) => (
                       <button
                         key={type.id}
@@ -225,9 +348,9 @@ export function Home() {
                           setSelectedType(type.name);
                           setOpenDropdown(null);
                         }}
-                        className={`w-full text-left p-4 border-b border-gray-dark/20 hover:bg-gold-primary/10 transition-colors flex items-center gap-3 ${selectedType === type.name ? 'bg-gold-primary/15 border-l-4 border-l-gold-primary' : ''}`}>
+                        className={`w-full text-left p-4 border-b border-white/10 hover:bg-gold-primary/10 transition-colors flex items-center gap-3 ${selectedType === type.name ? 'bg-gold-primary/10 border-l-2 border-l-gold-primary' : ''}`}>
                         <Building size={16} className="text-gold-primary shrink-0" />
-                        <span className="text-black-primary font-medium flex-1">{type.name}</span>
+                        <span className="text-white-accent font-medium flex-1">{type.name}</span>
                         {selectedType === type.name && <CheckCircle size={16} className="text-gold-primary flex-shrink-0" />}
                       </button>
                     ))}
@@ -241,7 +364,7 @@ export function Home() {
               <div ref={priceRef} className="flex-1 relative">
                 <button
                   onClick={() => setOpenDropdown(openDropdown === 'price' ? null : 'price')}
-                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black-primary/5 transition-colors text-left">
+                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black/5 transition-colors text-left">
                   <DollarSign size={16} className="text-black-primary/70 mr-2" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-wider opacity-70">Budget</span>
@@ -253,7 +376,7 @@ export function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`absolute top-full mt-3 w-96 bg-white-accent border border-gold-primary/50 rounded-xl shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('price') ? 'right-0' : 'left-0'}`}>
+                    className={`absolute top-full mt-0 w-96 bg-black/95 backdrop-blur-2xl border border-white/15 shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('price') ? 'right-0' : 'left-0'}`}>
                     {priceRanges.map((range) => (
                       <button
                         key={range.id}
@@ -261,9 +384,9 @@ export function Home() {
                           setSelectedPrice(range.name);
                           setOpenDropdown(null);
                         }}
-                        className={`w-full text-left p-4 border-b border-gray-dark/20 hover:bg-gold-primary/10 transition-colors flex items-center gap-3 ${selectedPrice === range.name ? 'bg-gold-primary/15 border-l-4 border-l-gold-primary' : ''}`}>
+                        className={`w-full text-left p-4 border-b border-white/10 hover:bg-gold-primary/10 transition-colors flex items-center gap-3 ${selectedPrice === range.name ? 'bg-gold-primary/10 border-l-2 border-l-gold-primary' : ''}`}>
                         <DollarSign size={16} className="text-gold-primary shrink-0" />
-                        <span className="text-black-primary font-medium flex-1">{range.name}</span>
+                        <span className="text-white-accent font-medium flex-1">{range.name}</span>
                         {selectedPrice === range.name && <CheckCircle size={16} className="text-gold-primary flex-shrink-0" />}
                       </button>
                     ))}
@@ -277,7 +400,7 @@ export function Home() {
               <div ref={sizeRef} className="flex-1 relative hidden sm:block">
                 <button
                   onClick={() => setOpenDropdown(openDropdown === 'size' ? null : 'size')}
-                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black-primary/5 transition-colors text-left">
+                  className="w-full flex items-center px-6 py-3 text-black-primary hover:bg-black/5 transition-colors text-left">
                   <Zap size={16} className="text-black-primary/70 mr-2" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-wider opacity-70">Size</span>
@@ -289,7 +412,7 @@ export function Home() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`absolute top-full mt-3 w-96 bg-white-accent border border-gold-primary/50 rounded-xl shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('size') ? 'right-0' : 'left-0'}`}>
+                    className={`absolute top-full mt-0 w-96 bg-black/95 backdrop-blur-2xl border border-white/15 shadow-2xl z-[100] max-h-80 overflow-y-auto ${alignRight.has('size') ? 'right-0' : 'left-0'}`}>
                     {sizeRanges.map((range) => (
                       <button
                         key={range.id}
@@ -297,9 +420,9 @@ export function Home() {
                           setSelectedSize(range.name);
                           setOpenDropdown(null);
                         }}
-                        className={`w-full text-left p-4 border-b border-gray-dark/20 hover:bg-gold-primary/10 transition-colors flex items-center gap-3 ${selectedSize === range.name ? 'bg-gold-primary/15 border-l-4 border-l-gold-primary' : ''}`}>
+                        className={`w-full text-left p-4 border-b border-white/10 hover:bg-gold-primary/10 transition-colors flex items-center gap-3 ${selectedSize === range.name ? 'bg-gold-primary/10 border-l-2 border-l-gold-primary' : ''}`}>
                         <Zap size={16} className="text-gold-primary shrink-0" />
-                        <span className="text-black-primary font-medium flex-1">{range.name}</span>
+                        <span className="text-white-accent font-medium flex-1">{range.name}</span>
                         {selectedSize === range.name && <CheckCircle size={16} className="text-gold-primary flex-shrink-0" />}
                       </button>
                     ))}
@@ -311,9 +434,10 @@ export function Home() {
               <button 
                 onClick={handleSearch}
                 aria-label="Search properties" 
-                className="bg-gold-primary hover:bg-gold-secondary transition-colors text-black-primary p-3 rounded-full flex items-center justify-center shrink-0 mr-1">
+                className="bg-gold-primary hover:bg-gold-secondary transition-colors text-black-primary p-4 flex items-center justify-center shrink-0">
                 <Search size={20} />
               </button>
+            </div>
             </div>
           </motion.div>
         </div>

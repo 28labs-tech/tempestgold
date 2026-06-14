@@ -1,11 +1,16 @@
-import React from 'react';
 import { ExternalLink, Download } from 'lucide-react';
 import { pressReleases } from '../data/mockData';
+import { SeoHead } from '../components/SeoHead';
 export function Press() {
   const featuredPress = pressReleases[0];
   const remainingPress = pressReleases.slice(1);
   return (
     <div className="min-h-screen bg-black-primary pt-32 pb-24">
+      <SeoHead
+        title="Press & Media - Tempest Gold Newsroom"
+        description="Latest press releases, media coverage, and news from Tempest Gold Estates. Featured in Financial Times, Bloomberg, Wall Street Journal, and Forbes."
+        url="/press"
+      />
       <div className="container mx-auto px-6 md:px-12">
         <header className="mb-16 border-b border-gray-dark pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -91,7 +96,7 @@ export function Press() {
               href="mailto:press@Tempest Goldestates.com"
               className="bg-black-primary text-white-accent px-8 py-4 rounded-lg font-medium text-center hover:bg-gray-dark transition-colors">
               
-              press@Tempest Goldestates.com
+              press@tempestgoldestates.com
             </a>
             <p className="text-xs text-center text-black/60 font-medium">
               +1 (212) 555-0199

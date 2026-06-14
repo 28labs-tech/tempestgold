@@ -1,11 +1,16 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, Award, Lightbulb, ArrowRight } from 'lucide-react';
 import { companyStats } from '../data/mockData';
+import { SeoHead } from '../components/SeoHead';
 export function About() {
   return (
     <div className="min-h-screen bg-black-primary">
+      <SeoHead
+        title="About Tempest Gold Estates - Luxury Real Estate Excellence"
+        description="Tempest Gold Estates curates the world's most exceptional properties. 20+ years of experience, $50B+ in assets valued. Integrity, excellence, and innovation."
+        url="/about"
+      />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">

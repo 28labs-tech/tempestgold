@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Globe, TrendingUp, Laptop, ArrowRight, MapPin } from 'lucide-react';
 import { careerPositions } from '../data/mockData';
+import { SeoHead } from '../components/SeoHead';
 export function Careers() {
   const [activeTab, setActiveTab] = useState('All');
   const departments = [
@@ -15,6 +16,11 @@ export function Careers() {
   careerPositions.filter((p) => p.department === activeTab);
   return (
     <div className="min-h-screen bg-black-primary pt-32 pb-24">
+      <SeoHead
+        title="Careers - Join Tempest Gold"
+        description="Build the future of luxury real estate with a global team of innovators, advisors, and creators. Explore open positions at Tempest Gold Estates."
+        url="/careers"
+      />
       <div className="container mx-auto px-6 md:px-12">
         {/* Hero */}
         <header className="mb-24 text-center max-w-3xl mx-auto">

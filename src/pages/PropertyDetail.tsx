@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Share,
@@ -10,6 +10,7 @@ import {
   Shield } from
 'lucide-react';
 import { properties } from '../data/mockData';
+import { SeoHead } from '../components/SeoHead';
 export function PropertyDetail() {
   const { id } = useParams();
   const property = properties.find((p) => p.id === id) || properties[0];
@@ -18,6 +19,12 @@ export function PropertyDetail() {
   }, [id]);
   return (
     <div className="min-h-screen bg-black-primary pt-24 pb-24">
+      <SeoHead
+        title={`${property.title} in ${property.location}`}
+        description={property.description.substring(0, 160)}
+        image={property.images[0]}
+        url={`/properties/${property.id}`}
+      />
       <div className="container mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="mb-6">
@@ -189,7 +196,7 @@ export function PropertyDetail() {
               <div className="flex items-end justify-between mb-6">
                 <div>
                   <span className="text-2xl font-semibold text-white-accent">
-                    ${property.price.toLocaleString()}
+                    ₽{property.price.toLocaleString()}
                   </span>
                   <span className="text-gray-light"> / night</span>
                 </div>
@@ -240,24 +247,24 @@ export function PropertyDetail() {
               <div className="space-y-4 text-sm">
                 <div className="flex justify-between text-gray-light">
                   <span className="underline">
-                    ${property.price.toLocaleString()} x 5 nights
+                    ₽{property.price.toLocaleString()} x 5 nights
                   </span>
-                  <span>${(property.price * 5).toLocaleString()}</span>
+                  <span>₽{(property.price * 5).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-gray-light">
                   <span className="underline">Cleaning fee</span>
-                  <span>$250</span>
+                  <span>₽250</span>
                 </div>
                 <div className="flex justify-between text-gray-light">
                   <span className="underline">Service fee</span>
-                  <span>$450</span>
+                  <span>₽450</span>
                 </div>
               </div>
 
               <div className="border-t border-gray-medium mt-6 pt-6 flex justify-between font-semibold text-white-accent">
                 <span>Total</span>
                 <span>
-                  ${(property.price * 5 + 250 + 450).toLocaleString()}
+                  ₽{(property.price * 5 + 250 + 450).toLocaleString()}
                 </span>
               </div>
             </div>

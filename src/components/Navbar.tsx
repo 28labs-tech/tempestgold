@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Menu, X, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,11 +41,11 @@ export function Navbar() {
       
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 z-50">
-          <div className="w-8 h-8 bg-gold-primary rounded-sm flex items-center justify-center">
-            <span className="font-serif font-bold text-black-primary text-xl">
-              T
-            </span>
-          </div>
+          <img 
+            src="/images/logo.png" 
+            alt="Tempest Gold" 
+            className="w-8 h-8"
+          />
           <span className="font-serif font-bold text-xl tracking-widest text-gold-primary uppercase">
             Tempest Gold
           </span>
@@ -68,12 +68,14 @@ export function Navbar() {
           <button className="text-white-accent hover:text-gold-primary transition-colors">
             <Search size={20} />
           </button>
-          <button className="flex items-center gap-2 bg-gray-dark border border-gray-medium rounded-full py-2 px-4 hover:border-gold-primary transition-colors">
+          <Link
+            to="/admin/login"
+            className="flex items-center gap-2 bg-gray-dark border border-gray-medium rounded-full py-2 px-4 hover:border-gold-primary transition-colors">
             <Menu size={16} className="text-gray-light" />
             <div className="w-6 h-6 rounded-full bg-gray-medium flex items-center justify-center overflow-hidden">
               <User size={14} className="text-gray-light" />
             </div>
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -135,9 +137,12 @@ export function Navbar() {
               <button className="flex items-center gap-3 text-lg text-white-accent py-3 border-b border-gray-dark">
                 <Search size={20} /> Search
               </button>
-              <button className="flex items-center gap-3 text-lg text-white-accent py-3 border-b border-gray-dark">
-                <User size={20} /> Sign In
-              </button>
+              <Link
+                to="/admin/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 text-lg text-white-accent py-3 border-b border-gray-dark hover:text-gold-primary transition-colors">
+                <User size={20} /> Admin
+              </Link>
             </div>
           </motion.div>
         }

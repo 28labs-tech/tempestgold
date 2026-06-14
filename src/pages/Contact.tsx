@@ -1,8 +1,13 @@
-import React from 'react';
 import { MapPin, Phone, Mail, Instagram, Twitter, Linkedin } from 'lucide-react';
+import { SeoHead } from '../components/SeoHead';
 export function Contact() {
   return (
     <div className="min-h-screen bg-black-primary pt-32 pb-24">
+      <SeoHead
+        title="Contact Tempest Gold - Private Advisory"
+        description="Connect with our private client advisory team. Discuss your real estate portfolio, request private viewings, or inquire about our valuation services."
+        url="/contact"
+      />
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
           {/* Left: Info */}
@@ -57,9 +62,9 @@ export function Contact() {
                 <div>
                   <h3 className="text-white-accent font-medium mb-1">Email</h3>
                   <p className="text-gray-light text-sm">
-                    advisory@Tempest Goldestates.com
+                    advisory@tempestgoldestates.com
                     <br />
-                    press@Tempest Goldestates.com
+                    press@tempestgoldestates.com
                   </p>
                 </div>
               </div>
