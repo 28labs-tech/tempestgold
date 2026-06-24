@@ -2,15 +2,17 @@ export const properties = [
 {
   id: '1',
   title: 'The Glass Pavilion',
-  location: 'Beverly Hills, CA',
-  price: 2500,
+  city: 'Gaborone',
+  location: 'Gaborone, Botswana',
+  price: 3500000,
+  bedrooms: 4,
+  bathrooms: 3,
+  size: 520,
+  purpose: 'For Sale',
+  type: 'Residential for sale',
   rating: 4.98,
   reviews: 124,
   guests: 8,
-  bedrooms: 4,
-  beds: 5,
-  baths: 4.5,
-  type: 'Villas',
   images: [
   'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200',
   'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800',
@@ -27,28 +29,33 @@ export const properties = [
   description:
   'Experience unparalleled luxury in this architectural masterpiece. The Glass Pavilion offers panoramic views of the city skyline, an infinity pool that blends seamlessly with the horizon, and meticulously curated interiors featuring custom Italian furnishings and state-of-the-art smart home technology.',
   amenities: [
-  'Infinity Pool',
+  'Swimming Pool',
   'Home Theater',
   'Wine Cellar',
   "Chef's Kitchen",
   'Smart Home System',
-  'Helipad',
-  'Spa',
-  'Gym']
+  'Security',
+  'Garage',
+  'Garden'],
+  featured: true,
+  views: 1250
 
 },
 {
   id: '2',
   title: 'Skyline Penthouse',
-  location: 'Manhattan, NY',
-  price: 1850,
+  city: 'Francistown',
+  location: 'Francistown, Botswana',
+  price: 2850000,
+  price_monthly: undefined,
+  bedrooms: 2,
+  bathrooms: 2,
+  size: 280,
+  purpose: 'For Sale',
+  type: 'Residential for sale',
   rating: 4.95,
   reviews: 89,
   guests: 4,
-  bedrooms: 2,
-  beds: 2,
-  baths: 2.5,
-  type: 'Penthouses',
   images: [
   'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200',
   'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800',
@@ -62,28 +69,32 @@ export const properties = [
     joined: '2019'
   },
   description:
-  'Perched above the bustling streets of Manhattan, this penthouse offers a serene escape with breathtaking 360-degree views of the skyline and Central Park. Floor-to-ceiling windows, a private wraparound terrace, and bespoke art pieces make this a truly unique urban retreat.',
+  'Perched above the bustling streets of Francistown, this penthouse offers a serene escape with breathtaking views of the city. Floor-to-ceiling windows, a private wraparound terrace, and bespoke art pieces make this a truly unique urban retreat.',
   amenities: [
-  'Private Terrace',
-  'Concierge',
-  'Valet Parking',
-  'Fitness Center',
+  'Balcony',
+  'Security',
+  'Air Conditioning',
+  'Fiber Internet',
   'City Views',
-  'Gourmet Kitchen']
-
+  'Garage'],
+  featured: false,
+  views: 850
 },
 {
   id: '3',
   title: 'Villa Azure',
-  location: 'Amalfi Coast, Italy',
-  price: 3200,
+  city: 'Maun',
+  location: 'Maun, Botswana',
+  price: 4750000,
+  price_monthly: undefined,
+  bedrooms: 5,
+  bathrooms: 4,
+  size: 650,
+  purpose: 'For Sale',
+  type: 'Residential for sale',
   rating: 5.0,
   reviews: 42,
   guests: 10,
-  bedrooms: 5,
-  beds: 6,
-  baths: 6,
-  type: 'Villas',
   images: [
   'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200',
   'https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=800',
@@ -98,28 +109,32 @@ export const properties = [
     joined: '2015'
   },
   description:
-  'Clinging to the cliffs of the Amalfi Coast, Villa Azure is a historic property reimagined for modern luxury. Terraced gardens lead down to a private sea access, while the interiors boast vaulted ceilings, antique frescoes, and contemporary Italian design.',
+  'Set on the banks of the Okavango Delta, Villa Azure offers a luxurious escape surrounded by nature. Terraced gardens lead down to private river access, while the interiors boast vaulted ceilings, contemporary design, and floor-to-ceiling windows framing the wilderness.',
   amenities: [
-  'Ocean View',
-  'Private Beach Access',
-  'Infinity Pool',
-  'Private Chef',
-  'Boat Mooring',
-  'Daily Housekeeping']
-
+  'Swimming Pool',
+  'Garden',
+  'Security',
+  'Staff Quarters',
+  'Borehole',
+  'Backup Power'],
+  featured: true,
+  views: 2150
 },
 {
   id: '4',
   title: 'The Modernist',
-  location: 'Aspen, CO',
-  price: 1500,
+  city: 'Kasane',
+  location: 'Kasane, Botswana',
+  price: 2800000,
+  price_monthly: undefined,
+  bedrooms: 3,
+  bathrooms: 2,
+  size: 380,
+  purpose: 'For Sale',
+  type: 'Residential for sale',
   rating: 4.88,
   reviews: 156,
   guests: 6,
-  bedrooms: 3,
-  beds: 4,
-  baths: 3.5,
-  type: 'Villas',
   images: [
   'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200',
   'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=800',
@@ -134,28 +149,32 @@ export const properties = [
     joined: '2020'
   },
   description:
-  'A striking contrast to traditional mountain lodges, The Modernist features clean lines, expansive glass, and warm wood tones. Ski-in/ski-out access, a heated outdoor lounge, and a private spa make it the ultimate winter retreat.',
+  'A striking contrast to traditional safari lodges, The Modernist features clean lines, expansive glass, and warm wood tones. Private access to the Chobe National Park, a heated outdoor lounge, and a private spa make it the ultimate wildlife retreat.',
   amenities: [
-  'Ski-in/Ski-out',
-  'Hot Tub',
-  'Fire Pit',
-  'Sauna',
-  'Mountain View',
-  'Equipment Room']
-
+  'Garage',
+  'Air Conditioning',
+  'Security',
+  'Swimming Pool',
+  'Garden View',
+  'Backup Power'],
+  featured: false,
+  views: 1320
 },
 {
   id: '5',
   title: 'Oasis Estate',
-  location: 'Dubai, UAE',
-  price: 4500,
+  city: 'Gaborone',
+  location: 'Gaborone, Botswana',
+  price: undefined,
+  price_monthly: 25000,
+  bedrooms: 6,
+  bathrooms: 5,
+  size: 850,
+  purpose: 'To Let',
+  type: 'Residential to let',
   rating: 4.99,
   reviews: 67,
   guests: 12,
-  bedrooms: 6,
-  beds: 8,
-  baths: 7,
-  type: 'Villas',
   images: [
   'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200',
   'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800',
@@ -170,119 +189,16 @@ export const properties = [
     joined: '2017'
   },
   description:
-  'Located on the Palm Jumeirah, Oasis Estate defines opulence. Featuring a private beach, a temperature-controlled pool, an indoor cinema, and a full staff including a butler and chef, this property offers an unmatched level of service and privacy.',
+  'Located in the premium Gaborone suburb, Oasis Estate defines opulence. Featuring an infinity pool, a temperature-controlled wine cellar, an indoor cinema, and a full staff including a butler and chef, this property offers an unmatched level of service and privacy.',
   amenities: [
-  'Private Beach',
-  'Butler Service',
-  'Indoor Cinema',
-  'Temperature Controlled Pool',
-  'Chauffeur',
-  'Smart Home']
-
-},
-{
-  id: '6',
-  title: 'The Heritage Loft',
-  location: 'Paris, France',
-  price: 950,
-  rating: 4.92,
-  reviews: 210,
-  guests: 2,
-  bedrooms: 1,
-  beds: 1,
-  baths: 1.5,
-  type: 'Apartments',
-  images: [
-  'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=1200',
-  'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800',
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800',
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800',
-  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800'],
-
-  host: {
-    name: 'Sophie Laurent',
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-    joined: '2016'
-  },
-  description:
-  'Situated in the historic Le Marais district, this loft combines 18th-century architecture with contemporary design. Exposed wooden beams, a curated art collection, and views of quiet Parisian courtyards make it a romantic haven.',
-  amenities: [
-  'City View',
-  'Espresso Machine',
-  'Art Collection',
-  'High-speed WiFi',
-  'Premium Linens']
-
-},
-{
-  id: '7',
-  title: 'Coastal Retreat',
-  location: 'Malibu, CA',
-  price: 2100,
-  rating: 4.85,
-  reviews: 95,
-  guests: 8,
-  bedrooms: 4,
-  beds: 4,
-  baths: 3,
-  type: 'Villas',
-  images: [
-  'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200',
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800',
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800',
-  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800',
-  'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800'],
-
-  host: {
-    name: 'James Wilson',
-    image:
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
-    joined: '2021'
-  },
-  description:
-  'Right on the sands of Malibu, this contemporary home features disappearing glass walls that open to the Pacific Ocean. Enjoy sunset views from the expansive deck or take a few steps down to the private beach.',
-  amenities: [
-  'Beachfront',
-  'Outdoor Kitchen',
-  'Surfboards',
-  'Fireplace',
-  'Ocean View']
-
-},
-{
-  id: '8',
-  title: 'Urban Sanctuary',
-  location: 'Tokyo, Japan',
-  price: 1200,
-  rating: 4.97,
-  reviews: 178,
-  guests: 4,
-  bedrooms: 2,
-  beds: 2,
-  baths: 2,
-  type: 'Apartments',
-  images: [
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200',
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800',
-  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800',
-  'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800',
-  'https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=800'],
-
-  host: {
-    name: 'Kenji Tanaka',
-    image:
-    'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150',
-    joined: '2019'
-  },
-  description:
-  "A minimalist masterpiece in the heart of Shibuya. This apartment offers a tranquil escape from the city's energy, featuring traditional Japanese design elements like tatami mats and shoji screens, blended with modern luxury.",
-  amenities: [
-  'City View',
-  'Zen Garden',
-  'Soaking Tub',
-  'Tea Room',
-  'High-speed WiFi']
-
+  'Swimming Pool',
+  'Garden',
+  'Staff Quarters',
+  'Smart Home System',
+  'Security',
+  'Garage'],
+  featured: true,
+  views: 3240
 }];
 
 
@@ -423,15 +339,6 @@ export const marketData = [
   trend: 'up'
 }];
 
-
-export const chartData = [
-{ name: 'Jan', NY: 4000, London: 2400, Dubai: 2400 },
-{ name: 'Feb', NY: 3000, London: 1398, Dubai: 2210 },
-{ name: 'Mar', NY: 2000, London: 9800, Dubai: 2290 },
-{ name: 'Apr', NY: 2780, London: 3908, Dubai: 2000 },
-{ name: 'May', NY: 1890, London: 4800, Dubai: 2181 },
-{ name: 'Jun', NY: 2390, London: 3800, Dubai: 2500 },
-{ name: 'Jul', NY: 3490, London: 4300, Dubai: 2100 }];
 
 
 export const tickerData = [
@@ -650,53 +557,143 @@ export const botswanaLocations = [
   {
     id: 'gaborone',
     name: 'Gaborone',
-    description: 'Capital city with modern luxury developments and vibrant cultural scene',
+    description: 'Capital and largest city; economic and administrative hub',
     image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400'
   },
   {
     id: 'francistown',
     name: 'Francistown',
-    description: 'Historic mining town with emerging luxury real estate market',
+    description: 'Second-largest city; major commercial centre',
     image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=400'
-  },
-  {
-    id: 'kasane',
-    name: 'Kasane',
-    description: 'Gateway to Chobe National Park with exclusive safari lodges and properties',
-    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
   },
   {
     id: 'maun',
     name: 'Maun',
-    description: 'The Okavango adventure hub with luxury retreat properties',
+    description: 'Gateway to the Okavango Delta; rapidly growing',
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400'
+  },
+  {
+    id: 'kasane',
+    name: 'Kasane',
+    description: 'Strategic tourism and border town',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
+  },
+  {
+    id: 'mogoditshane',
+    name: 'Mogoditshane',
+    description: 'One of the most populated villages; part of Greater Gaborone',
+    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400'
+  },
+  {
+    id: 'tlokweng',
+    name: 'Tlokweng',
+    description: 'Dense peri-urban village next to Gaborone',
+    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400'
+  },
+  {
+    id: 'molepolole',
+    name: 'Molepolole',
+    description: 'Among the largest traditional villages in Botswana',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
   },
   {
     id: 'serowe',
     name: 'Serowe',
-    description: 'Cultural heart of Botswana with heritage-rich properties',
+    description: 'Historically significant and highly populated',
     image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
   },
   {
-    id: 'livingstone',
-    name: 'Livingstone',
-    description: 'Victoria Falls gateway with premier safari and luxury residential options',
+    id: 'palapye',
+    name: 'Palapye',
+    description: 'Fast-growing due to industry and education (BIUST)',
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400'
+  },
+  {
+    id: 'kanye',
+    name: 'Kanye',
+    description: 'Large administrative and cultural centre',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
+  },
+  {
+    id: 'ramotswa',
+    name: 'Ramotswa',
+    description: 'Expanding commuter settlement',
+    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400'
+  },
+  {
+    id: 'maunatlala',
+    name: 'Maunatlala',
+    description: 'Dense settlement in Central District',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
+  },
+  {
+    id: 'letlhakane',
+    name: 'Letlhakane',
+    description: 'Diamond mining town with steady population',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400'
+  },
+  {
+    id: 'orapa',
+    name: 'Orapa',
+    description: 'Company town with concentrated population',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
+  },
+  {
+    id: 'mahalapye',
+    name: 'Mahalapye',
+    description: 'Key transport corridor settlement',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400'
+  },
+  {
+    id: 'mmopane',
+    name: 'Mmopane',
+    description: 'Notable peri-urban expansion corridor',
+    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400'
+  },
+  {
+    id: 'gabane',
+    name: 'Gabane',
+    description: 'Notable peri-urban expansion corridor',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
+  },
+  {
+    id: 'mmathubudukwane',
+    name: 'Mmathubudukwane',
+    description: 'Notable peri-urban expansion corridor',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400'
+  },
+  {
+    id: 'thamaga',
+    name: 'Thamaga',
+    description: 'Notable peri-urban expansion corridor',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400'
   }
 ];
 
 export const propertyTypes = [
-  { id: 'villas', name: 'Villas', icon: 'Building' },
-  { id: 'penthouses', name: 'Penthouses', icon: 'Building2' },
-  { id: 'apartments', name: 'Apartments', icon: 'Building' },
-  { id: 'lodges', name: 'Lodges', icon: 'Tent' }
+  { id: 'residential-to-let', name: 'Residential to let', icon: 'Building' },
+  { id: 'mixed-use-to-let', name: 'Mixed use to let', icon: 'Building2' },
+  { id: 'residential-for-sale', name: 'Residential for sale', icon: 'Building' },
+  { id: 'residential-development', name: 'Residential for development', icon: 'Building' },
+  { id: 'commercial-for-sale', name: 'Commercial for sale', icon: 'Building2' },
+  { id: 'commercial-to-let', name: 'Commercial to let', icon: 'Building2' },
+  { id: 'commercial-development', name: 'Commercial new development', icon: 'Building2' },
+  { id: 'industrial-for-sale', name: 'Industrial for sale', icon: 'Factory' },
+  { id: 'industrial-to-let', name: 'Industrial to let', icon: 'Factory' },
+  { id: 'mixed-use-for-sale', name: 'Mixed use for sale', icon: 'Building2' },
+  { id: 'agricultural-for-sale', name: 'Agricultural for sale', icon: 'Leaf' },
+  { id: 'farms-holdings', name: 'Farms and small holdings', icon: 'Leaf' },
+  { id: 'vacant-land', name: 'Vacant land', icon: 'Map' },
+  { id: 'area-profiles', name: 'Area profiles', icon: 'MapPin' },
+  { id: 'tourism-hospitality', name: 'Tourism/Hospitality', icon: 'Tent' }
 ];
 
 export const priceRanges = [
-  { id: 'under1m', name: 'Under $1M', range: '0-1000000' },
-  { id: '1m5m', name: '$1M - $5M', range: '1000000-5000000' },
-  { id: '5m10m', name: '$5M - $10M', range: '5000000-10000000' },
-  { id: '10mplus', name: '$10M+', range: '10000000+' }
+  { id: 'under1m', name: 'Under P1M', range: '0-1000000' },
+  { id: '1m3m', name: 'P1M - P3M', range: '1000000-3000000' },
+  { id: '3m5m', name: 'P3M - P5M', range: '3000000-5000000' },
+  { id: '5m10m', name: 'P5M - P10M', range: '5000000-10000000' },
+  { id: '10mplus', name: 'P10M+', range: '10000000+' }
 ];
 
 export const sizeRanges = [

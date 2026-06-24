@@ -1,10 +1,15 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Twitter } from 'lucide-react';
 import { teamMembers } from '../data/mockData';
+import { SeoHead } from '../components/SeoHead';
 export function Team() {
   return (
     <div className="min-h-screen bg-black-primary pt-32 pb-24">
+      <SeoHead
+        title="Our Leadership - Tempest Gold Team"
+        description="Meet the visionaries, strategists, and experts driving the future of global luxury real estate. Our leadership team brings decades of combined experience."
+        url="/team"
+      />
       <div className="container mx-auto px-6 md:px-12">
         <header className="mb-16 text-center max-w-3xl mx-auto">
           <span className="text-gold-primary text-sm font-bold uppercase tracking-widest mb-4 block">

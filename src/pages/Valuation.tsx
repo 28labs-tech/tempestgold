@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check, Upload, X } from 'lucide-react';
+import { SeoHead } from '../components/SeoHead';
 export function Valuation() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -23,12 +24,12 @@ export function Valuation() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && currentStep > 0 && currentStep < totalSteps) {
-        handleNext();
+        setCurrentStep((prev) => prev + 1);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentStep, formData]);
+  }, [currentStep, totalSteps]);
   const handleNext = () => {
     // Basic validation logic could go here
     if (currentStep < totalSteps) setCurrentStep((prev) => prev + 1);
@@ -36,7 +37,7 @@ export function Valuation() {
   const handleBack = () => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
-  const updateData = (key: string, value: any) => {
+  const updateData = (key: string, value: string | string[] | File[]) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value
@@ -109,6 +110,11 @@ export function Valuation() {
 
   return (
     <div className="fixed inset-0 z-[100] bg-black-primary flex flex-col overflow-hidden">
+      <SeoHead
+        title="Property Valuation - Tempest Gold"
+        description="Discover the true market potential of your luxury asset with our proprietary valuation engine. Get a preliminary valuation report from our expert team."
+        url="/valuation"
+      />
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gold-primary/10 via-black-primary to-black-primary pointer-events-none"></div>
 
@@ -571,7 +577,7 @@ export function Valuation() {
               <input
               type="text"
               autoFocus
-              placeholder="e.g. $5M - $7M"
+              placeholder="e.g. ₽67.5M - ₽135M"
               value={formData.budget}
               onChange={(e) => updateData('budget', e.target.value)}
               className="w-full bg-transparent border-b-2 border-gray-medium focus:border-gold-primary text-3xl md:text-4xl text-white-accent py-4 placeholder-gray-dark outline-none transition-colors" />

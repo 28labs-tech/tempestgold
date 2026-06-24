@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, ArrowDownRight, Clock } from 'lucide-react';
 import {
@@ -6,9 +5,15 @@ import {
   marketData,
   tickerData } from
 '../data/mockData';
+import { SeoHead } from '../components/SeoHead';
 export function Research() {
   return (
     <div className="min-h-screen bg-black-primary pt-20">
+      <SeoHead
+        title="Market Intelligence - Global Prime Property Research"
+        description="Proprietary data, analysis, and insights on global prime residential markets. Expert commentary and trend forecasts for luxury real estate investors."
+        url="/research"
+      />
       {/* Ticker */}
       <div className="bg-gold-primary text-black-primary py-2 overflow-hidden flex whitespace-nowrap border-b border-gold-secondary">
         <div className="animate-ticker flex gap-8 font-mono text-sm font-bold">

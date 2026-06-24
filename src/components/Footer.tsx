@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Twitter, Linkedin, Mail, ArrowRight } from 'lucide-react';
 export function Footer() {
@@ -9,11 +8,11 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-1 lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-gold-primary rounded-sm flex items-center justify-center">
-                <span className="font-serif font-bold text-black-primary text-xl">
-                  A
-                </span>
-              </div>
+              <img 
+                src="/images/logo.png" 
+                alt="Tempest Gold" 
+                className="w-8 h-8"
+              />
               <span className="font-serif font-bold text-xl tracking-widest text-gold-primary uppercase">
                 Tempest Gold
               </span>
@@ -60,18 +59,18 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/properties?type=Villas"
+                  to="/properties?type=Residential for sale"
                   className="text-gray-light hover:text-gold-primary transition-colors text-sm">
                   
-                  Villas & Estates
+                  Residential for Sale
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/properties?type=Penthouses"
+                  to="/properties?type=Residential to let"
                   className="text-gray-light hover:text-gold-primary transition-colors text-sm">
                   
-                  Penthouses
+                  Residential to Let
                 </Link>
               </li>
               <li>
