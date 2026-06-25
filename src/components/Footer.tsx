@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Instagram, Twitter, Linkedin, Mail, ArrowRight } from 'lucide-react';
 export function Footer() {
+  const { pathname } = useLocation();
+  const isPropertiesPage = pathname.startsWith('/properties');
   return (
-    <footer className="bg-black-primary border-t border-gray-dark pt-20 pb-10">
+    <footer className={`bg-black-primary border-t border-gray-dark pt-20 pb-10 ${isPropertiesPage ? 'block lg:hidden' : ''}`}>
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
