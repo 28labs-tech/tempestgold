@@ -22,14 +22,14 @@ export function Blog() {
   return (
     <div className="min-h-screen bg-black-primary pt-24 pb-24">
       <SeoHead
-        title="The Journal - Luxury Living & Architecture"
+        title="The Blog - Luxury Living & Architecture"
         description="Curated perspectives on luxury living, architectural innovation, and the art of the exceptional home. Insights from Tempest Gold's editorial team."
         url="/blog"
       />
       <div className="container mx-auto px-6 md:px-12">
         <header className="mb-12 text-center max-w-3xl mx-auto">
           <h1 className="font-serif text-4xl md:text-6xl text-white-accent mb-6">
-            The Journal
+            The Blog
           </h1>
           <p className="text-gray-light text-lg">
             Curated perspectives on luxury living, architectural innovation, and

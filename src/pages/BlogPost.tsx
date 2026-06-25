@@ -26,7 +26,7 @@ export function BlogPost() {
           to="/blog"
           className="inline-flex items-center gap-2 text-gray-light hover:text-gold-primary transition-colors mb-12 text-sm uppercase tracking-wider font-bold">
           
-          <ChevronLeft size={16} /> Back to Journal
+          <ChevronLeft size={16} /> Back to Blog
         </Link>
 
         <header className="mb-12 text-center">
@@ -68,7 +68,7 @@ export function BlogPost() {
               {post.author}
             </h3>
             <p className="text-gray-light text-sm mb-4">
-              Senior Editor at Tempest Gold Journal, specializing in architectural
+              Senior Editor at Tempest Gold Blog, specializing in architectural
               trends and interior design for ultra-luxury properties.
             </p>
             <button className="text-gold-primary text-sm font-medium hover:text-gold-light transition-colors">

@@ -86,7 +86,7 @@ export function Footer() {
                   to="/blog"
                   className="text-gray-light hover:text-gold-primary transition-colors text-sm">
                   
-                  Journal
+                  Blog
                 </Link>
               </li>
             </ul>

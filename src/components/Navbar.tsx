@@ -23,8 +23,8 @@ export function Navbar() {
     path: '/research'
   },
   {
-    name: 'Journal',
-    path: '/journal'
+    name: 'Blog',
+    path: '/blog'
   },
   {
     name: 'About',

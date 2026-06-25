@@ -454,7 +454,7 @@ export const careerPositions = [
   location: 'New York, NY',
   type: 'Full-time',
   description:
-  'Lead the editorial strategy for Tempest Gold Journal, covering architecture, design, and luxury lifestyle.'
+  'Lead the editorial strategy for Tempest Gold Blog, covering architecture, design, and luxury lifestyle.'
 },
 {
   id: 'c5',
@@ -539,7 +539,7 @@ export const pressReleases = [
 {
   id: 'p6',
   date: 'December 10, 2025',
-  headline: 'Tempest Gold Journal Wins Editorial Excellence Award',
+  headline: 'Tempest Gold Blog Wins Editorial Excellence Award',
   excerpt:
   "The firm's in-house publication recognized for its outstanding coverage of global design and architecture trends.",
   publication: 'Monocle'

@@ -67,7 +67,6 @@ export function App() {
             <Route path="/research/:id" element={<PublicLayout><ResearchArticle /></PublicLayout>} />
             <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
             <Route path="/blog/:id" element={<PublicLayout><BlogPost /></PublicLayout>} />
-            <Route path="/journal" element={<PublicLayout><Blog /></PublicLayout>} />
             <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
             <Route path="/team" element={<PublicLayout><Team /></PublicLayout>} />
             <Route path="/careers" element={<PublicLayout><Careers /></PublicLayout>} />
