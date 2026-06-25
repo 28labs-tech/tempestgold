@@ -1,14 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Share,
   Heart,
   Star,
   ChevronLeft,
+  ChevronRight,
   MapPin,
   Award,
-  Shield } from
-'lucide-react';
+  Shield,
+  X,
+  Check
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { properties } from '../data/mockData';
 import { SeoHead } from '../components/SeoHead';
 export function PropertyDetail() {
@@ -24,6 +28,23 @@ export function PropertyDetail() {
   const displayPrice = isRental ? property.price_monthly : property.price;
   const hostName = isSale ? 'Tempest Gold Private Clients' : property.host.name;
   const hostImage = isSale ? '/images/logo.png' : property.host.image;
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isAmenitiesModalOpen, setIsAmenitiesModalOpen] = useState(false);
+
+  const openCarousel = (index: number) => {
+    setActiveImageIndex(index);
+    setIsImageModalOpen(true);
+  };
+
+  const nextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % property.images.length);
+  };
+
+  const prevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + property.images.length) % property.images.length);
+  };
 
   return (
     <div className="min-h-screen bg-black-primary pt-24 pb-24">
@@ -81,6 +102,7 @@ export function PropertyDetail() {
               src={property.images[0]}
               alt="Main"
               className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
+              onClick={() => openCarousel(0)}
             />
           </div>
           <div className="hidden md:block col-span-1 row-span-1 h-full">
@@ -88,6 +110,7 @@ export function PropertyDetail() {
               src={property.images[1]}
               alt="Gallery 1"
               className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
+              onClick={() => openCarousel(1)}
             />
           </div>
           <div className="hidden md:block col-span-1 row-span-1 h-full">
@@ -95,6 +118,7 @@ export function PropertyDetail() {
               src={property.images[2]}
               alt="Gallery 2"
               className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
+              onClick={() => openCarousel(2)}
             />
           </div>
           <div className="hidden md:block col-span-1 row-span-1 h-full">
@@ -102,6 +126,7 @@ export function PropertyDetail() {
               src={property.images[3]}
               alt="Gallery 3"
               className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
+              onClick={() => openCarousel(3)}
             />
           </div>
           <div className="hidden md:block col-span-1 row-span-1 h-full">
@@ -109,9 +134,13 @@ export function PropertyDetail() {
               src={property.images[4]}
               alt="Gallery 4"
               className="w-full h-full object-cover hover:opacity-90 transition-opacity cursor-pointer"
+              onClick={() => openCarousel(4)}
             />
           </div>
-          <button className="absolute bottom-6 right-6 bg-white-accent text-black-primary px-4 py-2 rounded-lg font-medium text-sm border border-black shadow-lg hover:bg-gray-200 transition-colors">
+          <button 
+            onClick={() => openCarousel(0)}
+            className="absolute bottom-6 right-6 bg-white-accent text-black-primary px-4 py-2 rounded-lg font-medium text-sm border border-black shadow-lg hover:bg-gray-200 transition-colors"
+          >
             Show all photos
           </button>
         </div>
@@ -192,70 +221,73 @@ export function PropertyDetail() {
                   </div>
                 ))}
               </div>
-              <button className="mt-8 border border-white-accent text-white-accent px-6 py-3 rounded-lg font-medium hover:bg-white-accent hover:text-black-primary transition-colors">
+              <button 
+                onClick={() => setIsAmenitiesModalOpen(true)}
+                className="mt-8 border border-white-accent text-white-accent px-6 py-3 rounded-lg font-medium hover:bg-white-accent hover:text-black-primary transition-colors"
+              >
                 Show all amenities
               </button>
             </div>
           </div>
 
           {/* Sidebar Booking / Inquiry Card */}
-          <div className="w-full lg:w-[380px]">
-            <div className="sticky top-32 bg-gray-dark border border-gray-medium rounded-2xl p-6 shadow-2xl">
+          <div className="w-full lg:w-[420px] shrink-0">
+            <div className="sticky top-32 bg-gray-dark border border-gray-medium rounded-2xl p-8 shadow-2xl">
               {isSale ? (
-                // Private Inquiry Form for Sale Properties
+                // Private Inquiry Form for Sale Properties (Larger and More Premium)
                 <div className="flex flex-col gap-6">
-                  <div className="border-b border-gray-medium/30 pb-4">
-                    <span className="font-serif text-xl text-gold-primary tracking-wider uppercase font-bold block mb-1">
+                  <div className="border-b border-gray-medium/30 pb-5">
+                    <span className="font-serif text-2xl text-gold-primary tracking-wider uppercase font-bold block mb-1.5">
                       Price Upon Request
                     </span>
-                    <span className="text-gray-light text-xs">
-                      Exclusive Sale Listing
+                    <span className="text-gray-light text-sm">
+                      Exclusive Private Collection
                     </span>
                   </div>
                   
-                  <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert('Thank you for your interest. A Tempest Gold Private Client Advisor will contact you shortly.'); }}>
+                  <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); alert('Thank you for your interest. A Tempest Gold Private Client Advisor will contact you shortly.'); }}>
                     <div>
-                      <label className="text-[10px] font-bold uppercase text-gray-light block mb-1">Full Name</label>
+                      <label className="text-xs font-bold uppercase text-gray-light block mb-2 tracking-wider">Full Name</label>
                       <input
                         type="text"
                         required
                         placeholder="John Doe"
-                        className="w-full px-3 py-2 rounded bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase text-gray-light block mb-1">Email Address</label>
+                      <label className="text-xs font-bold uppercase text-gray-light block mb-2 tracking-wider">Email Address</label>
                       <input
                         type="email"
                         required
                         placeholder="john@example.com"
-                        className="w-full px-3 py-2 rounded bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase text-gray-light block mb-1">Phone Number</label>
+                      <label className="text-xs font-bold uppercase text-gray-light block mb-2 tracking-wider">Phone Number</label>
                       <input
                         type="text"
                         required
                         placeholder="+267 71 234 567"
-                        className="w-full px-3 py-2 rounded bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase text-gray-light block mb-1">Inquiry Details</label>
+                      <label className="text-xs font-bold uppercase text-gray-light block mb-2 tracking-wider">Inquiry Details</label>
                       <textarea
-                        rows={3}
+                        rows={4}
                         defaultValue={`I am interested in requesting more details or a private viewing for ${property.title} in ${property.location}.`}
-                        className="w-full px-3 py-2 rounded bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors resize-none"
+                        className="w-full px-4 py-3 rounded-lg bg-black-primary border border-gray-medium text-white-accent text-sm focus:border-gold-primary outline-none transition-colors resize-none leading-relaxed"
                       />
                     </div>
                     
-                    <button type="submit" className="w-full bg-gold-primary hover:bg-gold-secondary text-black-primary font-bold py-4 rounded-xl transition-colors shadow-lg mt-2 text-sm uppercase tracking-wider">
+                    <button type="submit" className="w-full bg-gold-primary hover:bg-gold-secondary text-black-primary font-bold py-4.5 rounded-xl transition-all duration-300 shadow-lg shadow-gold-primary/10 hover:shadow-gold-primary/20 mt-2 text-sm uppercase tracking-widest">
                       Request Private Viewing
                     </button>
                   </form>
                   
-                  <div className="text-center text-xs text-gray-light border-t border-gray-medium/30 pt-4">
+                  <div className="text-center text-xs text-gray-light border-t border-gray-medium/30 pt-5 leading-relaxed">
                     A Tempest Gold Private Client Advisor will contact you within 24 hours.
                   </div>
                 </div>
@@ -342,6 +374,138 @@ export function PropertyDetail() {
           </div>
         </div>
       </div>
+
+      {/* IMAGE CAROUSEL MODAL */}
+      <AnimatePresence>
+        {isImageModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex flex-col justify-between bg-black/95 backdrop-blur-md p-6"
+          >
+            {/* Top Bar */}
+            <div className="flex items-center justify-between w-full text-white-accent z-10">
+              <span className="font-serif text-sm tracking-wider uppercase">
+                {property.title} — Image {activeImageIndex + 1} of {property.images.length}
+              </span>
+              <button
+                onClick={() => setIsImageModalOpen(false)}
+                className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white-accent transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Main Carousel viewport */}
+            <div className="relative flex-grow flex items-center justify-center max-w-6xl w-full mx-auto my-4 px-12">
+              <button
+                onClick={prevImage}
+                className="absolute left-0 z-10 p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold-primary text-white-accent transition-colors"
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              <div className="w-full h-full max-h-[70vh] flex items-center justify-center overflow-hidden rounded-2xl relative bg-black/40">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeImageIndex}
+                    src={property.images[activeImageIndex]}
+                    alt={`Property image ${activeImageIndex + 1}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </AnimatePresence>
+              </div>
+
+              <button
+                onClick={nextImage}
+                className="absolute right-0 z-10 p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold-primary text-white-accent transition-colors"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+
+            {/* Bottom Thumbnails */}
+            <div className="w-full max-w-4xl mx-auto z-10">
+              <div className="flex justify-center gap-3 overflow-x-auto py-4 hide-scrollbar">
+                {property.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`relative w-20 h-14 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
+                      activeImageIndex === idx ? 'border-gold-primary scale-105 shadow-[0_0_15px_rgba(212,175,55,0.3)]' : 'border-transparent opacity-50 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* AMENITIES MODAL */}
+      <AnimatePresence>
+        {isAmenitiesModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-6"
+            onClick={() => setIsAmenitiesModalOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="relative bg-gray-dark border border-gray-medium max-w-2xl w-full max-h-[80vh] rounded-2xl overflow-hidden flex flex-col p-8 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-gray-medium/30 pb-4 mb-6">
+                <h3 className="font-serif text-2xl text-white-accent">
+                  Property Amenities
+                </h3>
+                <button
+                  onClick={() => setIsAmenitiesModalOpen(false)}
+                  className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white-accent transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Grid content */}
+              <div className="flex-grow overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-4 pr-2 mb-6">
+                {property.amenities.map((amenity, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3.5 p-4 rounded-xl bg-black-primary/40 border border-gray-medium/10 text-white-accent hover:border-gold-primary/20 transition-all"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0">
+                      <Check size={14} className="text-gold-primary" />
+                    </div>
+                    <span className="text-sm text-gray-light">{amenity}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Close Button / Collapse All */}
+              <button
+                onClick={() => setIsAmenitiesModalOpen(false)}
+                className="w-full bg-gold-primary hover:bg-gold-secondary text-black-primary font-bold py-4 rounded-xl transition-all duration-300 shadow-lg text-sm uppercase tracking-widest"
+              >
+                Close Amenities
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
