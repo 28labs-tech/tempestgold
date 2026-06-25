@@ -593,7 +593,7 @@ export function Home() {
         <div className="flex justify-between items-end mb-12">
           <div>
             <h2 className="font-serif text-3xl md:text-4xl text-white-accent mb-4">
-              The Journal
+              The Blog
             </h2>
             <p className="text-gray-light">
               Insights on luxury living, design, and architecture.

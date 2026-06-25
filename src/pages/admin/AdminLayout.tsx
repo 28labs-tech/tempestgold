@@ -18,7 +18,7 @@ const navItems = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/admin/properties', label: 'Properties', icon: Building2 },
   { path: '/admin/research', label: 'Research', icon: FileText },
-  { path: '/admin/blog', label: 'Blog / Journal', icon: BookOpen },
+  { path: '/admin/blog', label: 'Blog', icon: BookOpen },
   { path: '/admin/team', label: 'Team', icon: Users },
   { path: '/admin/careers', label: 'Careers', icon: Briefcase },
   { path: '/admin/press', label: 'Press', icon: Newspaper },

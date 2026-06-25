@@ -5,7 +5,6 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     include: ['debug', 'extend'],
-    exclude: ['@milkdown/crepe'],
   },
   resolve: {
     alias: {

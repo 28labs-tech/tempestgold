@@ -6,7 +6,7 @@ import {
 const cards = [
   { to: '/admin/properties', label: 'Properties', count: 'Manage', icon: Building2, color: 'text-blue-400' },
   { to: '/admin/research', label: 'Research Articles', count: 'Manage', icon: FileText, color: 'text-purple-400' },
-  { to: '/admin/blog', label: 'Blog / Journal', count: 'Manage', icon: BookOpen, color: 'text-green-400' },
+  { to: '/admin/blog', label: 'Blog', count: 'Manage', icon: BookOpen, color: 'text-green-400' },
   { to: '/admin/team', label: 'Team Members', count: 'Manage', icon: Users, color: 'text-amber-400' },
   { to: '/admin/careers', label: 'Career Positions', count: 'Manage', icon: Briefcase, color: 'text-rose-400' },
   { to: '/admin/press', label: 'Press Releases', count: 'Manage', icon: Newspaper, color: 'text-cyan-400' },
