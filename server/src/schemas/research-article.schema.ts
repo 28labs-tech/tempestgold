@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
 
 @Schema({ timestamps: true })
 export class ResearchArticle extends Document {
@@ -11,6 +11,10 @@ export class ResearchArticle extends Document {
   @Prop() readTime: string;
   @Prop() image: string;
   @Prop() content: string;
+  @Prop() location: string;
+  @Prop() source: string;
+  @Prop() reportUrl: string;
 }
 
-export const ResearchArticleSchema = SchemaFactory.createForClass(ResearchArticle);
+export const ResearchArticleSchema =
+  SchemaFactory.createForClass(ResearchArticle);

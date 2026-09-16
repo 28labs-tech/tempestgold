@@ -1,794 +1,477 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { SlidersHorizontal, X } from "lucide-react";
+import { SeoHead } from "../components/SeoHead";
+import { PropertyCard } from "../components/PropertyCard";
+import { SampleNotice, EmptyState } from "../components/Consultancy";
+import { propertyCategories, uses } from "../data/consultancy";
+import { botswanaLocations } from "../data/mockData";
 import {
-  Filter,
-  X,
-  ChevronDown,
-  Plus,
-  Minus,
-  MapPin
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { properties, botswanaLocations, propertyTypes } from '../data/mockData';
-import { PropertyCard } from '../components/PropertyCard';
-import { SeoHead } from '../components/SeoHead';
-
-interface FilterState {
-  cities: string[];
-  propertyTypes: string[];
-  purpose: 'All' | 'For Sale' | 'To Let' | 'Development';
-  minPrice: string;
-  maxPrice: string;
-  bedrooms: string;
-  bathrooms: string;
-  minSize: string;
-  maxSize: string;
-  amenities: string[];
-  sortBy: 'newest' | 'featured' | 'price-low' | 'price-high' | 'views';
-}
-
-const AMENITIES = [
-  'Swimming Pool',
-  'Garage',
-  'Security',
-  'Garden',
-  'Balcony',
-  'Air Conditioning',
-  'Furnished',
-  'Pets Allowed',
-  'Backup Power',
-  'Borehole',
-  'Staff Quarters',
-  'Fiber Internet'
+  useProperties,
+  amountFor,
+  categoryFor,
+  isRental,
+  isResidential,
+  statusFor,
+} from "../data/property";
+const statuses = [
+  "For Sale",
+  "To Let / For Lease",
+  "Sold / Leased",
+  "Sold",
+  "Leased",
+  "New Listing",
+  "Featured",
 ];
-
-const QUICK_PRICE_RANGES_SALE = [
-  { label: 'Under P2.5M', min: 0, max: 2500000 },
-  { label: 'P2.5M - P5M', min: 2500000, max: 5000000 },
-  { label: 'P5M - P10M', min: 5000000, max: 10000000 },
-  { label: 'Above P10M', min: 10000000, max: Infinity }
-];
-
-const QUICK_PRICE_RANGES_RENT = [
-  { label: 'Under P8,500', min: 0, max: 8500 },
-  { label: 'P8,500 - P15,000', min: 8500, max: 15000 },
-  { label: 'P15,000 - P30,000', min: 15000, max: 30000 },
-  { label: 'Above P30,000', min: 30000, max: Infinity }
-];
-
 export function Properties() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [showMobileFilter, setShowMobileFilter] = useState(false);
-  const [expandedSection, setExpandedSection] = useState<string | null>('location');
-
-  const [filters, setFilters] = useState<FilterState>({
-    cities: searchParams.getAll('cities') || [],
-    propertyTypes: searchParams.getAll('types') || [],
-    purpose: (searchParams.get('purpose') as FilterState['purpose']) || 'All',
-    minPrice: searchParams.get('minPrice') || '',
-    maxPrice: searchParams.get('maxPrice') || '',
-    bedrooms: searchParams.get('bedrooms') || '',
-    bathrooms: searchParams.get('bathrooms') || '',
-    minSize: searchParams.get('minSize') || '',
-    maxSize: searchParams.get('maxSize') || '',
-    amenities: searchParams.getAll('amenities') || [],
-    sortBy: (searchParams.get('sortBy') as FilterState['sortBy']) || 'newest'
-  });
-
-  // Update URL when filters change
+  const [params, setParams] = useSearchParams();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const filterDialog = useRef<HTMLDivElement>(null);
+  const filterTrigger = useRef<HTMLElement | null>(null);
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (filters.cities.length) filters.cities.forEach(c => params.append('cities', c));
-    if (filters.propertyTypes.length) filters.propertyTypes.forEach(t => params.append('types', t));
-    if (filters.purpose !== 'All') params.set('purpose', filters.purpose);
-    if (filters.minPrice) params.set('minPrice', filters.minPrice);
-    if (filters.maxPrice) params.set('maxPrice', filters.maxPrice);
-    if (filters.bedrooms) params.set('bedrooms', filters.bedrooms);
-    if (filters.bathrooms) params.set('bathrooms', filters.bathrooms);
-    if (filters.minSize) params.set('minSize', filters.minSize);
-    if (filters.maxSize) params.set('maxSize', filters.maxSize);
-    if (filters.amenities.length) filters.amenities.forEach(a => params.append('amenities', a));
-    if (filters.sortBy !== 'newest') params.set('sortBy', filters.sortBy);
-
-    setSearchParams(params);
-  }, [filters, setSearchParams]);
-
-  const updateFilter = useCallback((key: keyof FilterState, value: any) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  }, []);
-
-  const toggleCity = useCallback((city: string) => {
-    setFilters(prev => ({
-      ...prev,
-      cities: prev.cities.includes(city)
-        ? prev.cities.filter(c => c !== city)
-        : [...prev.cities, city]
-    }));
-  }, []);
-
-  const togglePropertyType = useCallback((type: string) => {
-    setFilters(prev => ({
-      ...prev,
-      propertyTypes: prev.propertyTypes.includes(type)
-        ? prev.propertyTypes.filter(t => t !== type)
-        : [...prev.propertyTypes, type]
-    }));
-  }, []);
-
-  const toggleAmenity = useCallback((amenity: string) => {
-    setFilters(prev => ({
-      ...prev,
-      amenities: prev.amenities.includes(amenity)
-        ? prev.amenities.filter(a => a !== amenity)
-        : [...prev.amenities, amenity]
-    }));
-  }, []);
-
-  const clearFilters = useCallback(() => {
-    setFilters({
-      cities: [],
-      propertyTypes: [],
-      purpose: 'All',
-      minPrice: '',
-      maxPrice: '',
-      bedrooms: '',
-      bathrooms: '',
-      minSize: '',
-      maxSize: '',
-      amenities: [],
-      sortBy: 'newest'
-    });
-  }, []);
-
-  const filteredProperties = useMemo(() => {
-    let result = [...properties];
-
-    // Filter by cities
-    if (filters.cities.length > 0) {
-      result = result.filter(p => filters.cities.includes(p.city));
-    }
-
-    // Filter by property types
-    if (filters.propertyTypes.length > 0) {
-      result = result.filter(p => filters.propertyTypes.includes(p.type));
-    }
-
-    // Filter by purpose
-    if (filters.purpose !== 'All') {
-      result = result.filter(p => p.purpose === filters.purpose);
-    }
-
-    // Filter by price
-    if (filters.minPrice) {
-      const min = parseInt(filters.minPrice);
-      result = result.filter(p => {
-        const price = filters.purpose === 'To Let' ? p.price_monthly || 0 : p.price;
-        return price >= min;
-      });
-    }
-
-    if (filters.maxPrice) {
-      const max = parseInt(filters.maxPrice);
-      result = result.filter(p => {
-        const price = filters.purpose === 'To Let' ? p.price_monthly || 0 : p.price;
-        return price <= max;
-      });
-    }
-
-    // Filter by bedrooms
-    if (filters.bedrooms) {
-      const minBeds = parseInt(filters.bedrooms);
-      result = result.filter(p => p.bedrooms >= minBeds);
-    }
-
-    // Filter by bathrooms
-    if (filters.bathrooms) {
-      const minBaths = parseInt(filters.bathrooms);
-      result = result.filter(p => p.bathrooms >= minBaths);
-    }
-
-    // Filter by size
-    if (filters.minSize) {
-      const min = parseInt(filters.minSize);
-      result = result.filter(p => p.size >= min);
-    }
-
-    if (filters.maxSize) {
-      const max = parseInt(filters.maxSize);
-      result = result.filter(p => p.size <= max);
-    }
-
-    // Filter by amenities
-    if (filters.amenities.length > 0) {
-      result = result.filter(p =>
-        filters.amenities.every(amenity => p.amenities.includes(amenity))
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const listener = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+      if (e.key !== "Tab") return;
+      const controls = filterDialog.current?.querySelectorAll<HTMLElement>(
+        "button, a, input, select, summary",
       );
-    }
-
-    // Sort
-    switch (filters.sortBy) {
-      case 'price-low':
-        result.sort((a, b) => {
-          const priceA = filters.purpose === 'To Let' ? a.price_monthly || 0 : a.price;
-          const priceB = filters.purpose === 'To Let' ? b.price_monthly || 0 : b.price;
-          return priceA - priceB;
-        });
-        break;
-      case 'price-high':
-        result.sort((a, b) => {
-          const priceA = filters.purpose === 'To Let' ? a.price_monthly || 0 : a.price;
-          const priceB = filters.purpose === 'To Let' ? b.price_monthly || 0 : b.price;
-          return priceB - priceA;
-        });
-        break;
-      case 'featured':
-        result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
-        break;
-      case 'views':
-        result.sort((a, b) => b.views - a.views);
-        break;
-      case 'newest':
-      default:
-        result.sort((a, b) => parseInt(b.id) - parseInt(a.id));
-    }
-
-    return result;
-  }, [filters]);
-
-  const activeFilterCount = useMemo(() => {
-    let count = 0;
-    if (filters.cities.length) count += filters.cities.length;
-    if (filters.propertyTypes.length) count += filters.propertyTypes.length;
-    if (filters.purpose !== 'All') count++;
-    if (filters.minPrice) count++;
-    if (filters.maxPrice) count++;
-    if (filters.bedrooms) count++;
-    if (filters.bathrooms) count++;
-    if (filters.minSize) count++;
-    if (filters.maxSize) count++;
-    if (filters.amenities.length) count += filters.amenities.length;
-    return count;
-  }, [filters]);
-
+      const visible = Array.from(controls || []).filter(
+        (el) => el.getClientRects().length > 0,
+      );
+      const first = visible[0],
+        last = visible[visible.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last?.focus();
+      }
+      if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", listener);
+      filterTrigger.current?.focus();
+    };
+  }, [mobileOpen]);
+  const collection = useProperties();
+  const value = (key: string) => params.get(key) || "";
+  const change = (key: string, next: string) => {
+    const updated = new URLSearchParams(params);
+    if (next) updated.set(key, next);
+    else updated.delete(key);
+    setParams(updated, { replace: true });
+  };
+  const selectedTypes = params.getAll("types");
+  const type = value("type") || selectedTypes[0] || "";
+  const purpose = value("purpose");
+  const location = value("location") || value("cities");
+  const residentialOnly =
+    type === "Residential" || /residential|studio/i.test(type);
+  const locations = botswanaLocations.map(location => location.name).sort();
+  const amenities = [
+    ...new Set(collection.items.flatMap((p) => p.amenities)),
+  ].sort();
+  const selectedAmenities = params.getAll("amenities");
+  const result = useMemo(() => {
+    const number = (key: string) => {
+      const raw = params.get(key);
+      return raw && Number.isFinite(Number(raw)) ? Number(raw) : undefined;
+    };
+    const q = (params.get("q") || "").toLowerCase().trim();
+    const cities = params.getAll("cities");
+    const types = params.getAll("types");
+    const status = params.get("status");
+    const use = params.get("use");
+    const minPrice = number("minPrice"),
+      maxPrice = number("maxPrice"),
+      minSize = number("minSize"),
+      maxSize = number("maxSize");
+    let items = collection.items.filter((p) => {
+      const category = categoryFor(p.type);
+      const actualPrice = amountFor(p);
+      const area = p.size || p.lettableArea || p.buildingArea || p.landArea;
+      if (
+        q &&
+        ![p.title, p.location, p.description, p.type, ...p.amenities]
+          .join(" ")
+          .toLowerCase()
+          .includes(q)
+      )
+        return false;
+      if (
+        location === "Other"
+          ? locations.includes(p.city)
+          : (params.get("location") || cities.length <= 1) &&
+            location &&
+            !p.location.toLowerCase().includes(location.toLowerCase())
+      )
+        return false;
+      if (cities.length > 1 && !cities.includes(p.city)) return false;
+      if (
+        (params.get("type") || types.length <= 1) &&
+        type &&
+        type !== category &&
+        type !== p.type
+      )
+        return false;
+      if (
+        types.length > 1 &&
+        !types.includes(p.type) &&
+        !types.includes(category)
+      )
+        return false;
+      if (
+        purpose &&
+        (purpose === "To Let" ? !isRental(p) : p.purpose !== purpose)
+      )
+        return false;
+      if (
+        status === "Featured"
+          ? !p.featured
+          : status === "Sold / Leased"
+            ? !/sold|leased/i.test(statusFor(p))
+            : status && statusFor(p) !== status
+      )
+        return false;
+      if (
+        use &&
+        !(p.uses || []).includes(use) &&
+        !(use === "Sale" && p.purpose === "For Sale") &&
+        !(use === "Rent / Lease" && isRental(p)) &&
+        !(use === "Development" && p.purpose === "Development")
+      )
+        return false;
+      if (
+        (minPrice !== undefined || maxPrice !== undefined) &&
+        (actualPrice == null ||
+          actualPrice <= 0 ||
+          (minPrice !== undefined && actualPrice < minPrice) ||
+          (maxPrice !== undefined && actualPrice > maxPrice))
+      )
+        return false;
+      if (
+        (minSize !== undefined || maxSize !== undefined) &&
+        (area == null ||
+          (minSize !== undefined && area < minSize) ||
+          (maxSize !== undefined && area > maxSize))
+      )
+        return false;
+      if (
+        residentialOnly &&
+        isResidential(p) &&
+        ((number("bedrooms") !== undefined &&
+          (p.bedrooms || 0) < number("bedrooms")!) ||
+          (number("bathrooms") !== undefined &&
+            (p.bathrooms || p.baths || 0) < number("bathrooms")!))
+      )
+        return false;
+      if (!params.getAll("amenities").every((a) => p.amenities.includes(a)))
+        return false;
+      return true;
+    });
+    const sort = params.get("sortBy") || "newest";
+    items = items.sort((a, b) => {
+      if (sort === "price-low" || sort === "price-high") {
+        const av = amountFor(a),
+          bv = amountFor(b);
+        if (!av) return bv ? 1 : 0;
+        if (!bv) return -1;
+        return sort === "price-low" ? av - bv : bv - av;
+      }
+      if (sort === "featured")
+        return Number(!!b.featured) - Number(!!a.featured);
+      if (sort === "views") return (b.views || 0) - (a.views || 0);
+      return a.createdAt && b.createdAt
+        ? b.createdAt.localeCompare(a.createdAt)
+        : Number(b.id) - Number(a.id);
+    });
+    return items;
+  }, [
+    collection.items,
+    params,
+    location,
+    locations,
+    purpose,
+    residentialOnly,
+    type,
+  ]);
+  const field = (
+    key: string,
+    label: string,
+    options: string[],
+    selected = value(key),
+  ) => (
+    <label className="filter-field">
+      {label}
+      <select
+        value={selected}
+        onChange={(e) => {
+          if (key === "type") {
+            const updated = new URLSearchParams(params);
+            updated.delete("types");
+            updated.delete("bedrooms");
+            updated.delete("bathrooms");
+            if (e.target.value) updated.set("type", e.target.value);
+            else updated.delete("type");
+            setParams(updated, { replace: true });
+          } else if (key === "location") {
+            const updated = new URLSearchParams(params);
+            updated.delete("cities");
+            if (e.target.value) updated.set(key, e.target.value);
+            else updated.delete(key);
+            setParams(updated, { replace: true });
+          } else change(key, e.target.value);
+        }}
+      >
+        <option value="">All</option>
+        {options.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+    </label>
+  );
+  const filters = (
+    <>
+      <div className="filter-heading">
+        <h2>Property filters</h2>
+        <button
+          onClick={() => setParams(new URLSearchParams(), { replace: true })}
+          className="text-link"
+        >
+          Reset
+        </button>
+      </div>
+      <label className="filter-field">
+        Currency
+        <select value="BWP" onChange={() => {}}>
+          <option value="BWP">BWP / P — Botswana Pula</option>
+        </select>
+      </label>
+      {field("location", "Location", [...locations, "Other"], location)}
+      <label className="filter-field">
+        Search another location
+        <input
+          value={location === "Other" ? "" : location}
+          onChange={(e) => {
+            const updated = new URLSearchParams(params);
+            updated.delete("cities");
+            if (e.target.value) updated.set("location", e.target.value);
+            else updated.delete("location");
+            setParams(updated, { replace: true });
+          }}
+          placeholder="Area or location"
+        />
+      </label>
+      {field("type", "Property type", propertyCategories, type)}
+      {field("use", "Purpose / Use", uses)}
+      <label className="filter-field">
+        Transaction
+        <select
+          value={purpose}
+          onChange={(e) => change("purpose", e.target.value)}
+        >
+          <option value="">Sale & lease</option>
+          <option value="For Sale">For Sale</option>
+          <option value="To Let">Rent / Lease</option>
+          <option value="Development">Development</option>
+        </select>
+      </label>
+      {field("status", "Status", statuses)}
+      <fieldset>
+        <legend>Price range (P)</legend>
+        <div className="range-fields">
+          {["minPrice", "maxPrice"].map((k, i) => (
+            <label key={k}>
+              {i ? "Maximum" : "Minimum"}
+              <input
+                type="number"
+                min="0"
+                value={value(k)}
+                onChange={(e) => change(k, e.target.value)}
+                placeholder="Any"
+              />
+            </label>
+          ))}
+        </div>
+        <p className="muted-small">
+          Rental prices are monthly. POA listings remain available without price
+          filters.
+        </p>
+      </fieldset>
+      <fieldset>
+        <legend>Area (m²)</legend>
+        <div className="range-fields">
+          {["minSize", "maxSize"].map((k, i) => (
+            <label key={k}>
+              {i ? "Maximum" : "Minimum"}
+              <input
+                type="number"
+                min="0"
+                value={value(k)}
+                onChange={(e) => change(k, e.target.value)}
+                placeholder="Any"
+              />
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      {residentialOnly && (
+        <fieldset>
+          <legend>Residential details</legend>
+          <div className="range-fields">
+            {["bedrooms", "bathrooms"].map((k) => (
+              <label key={k}>
+                Minimum {k}
+                <input
+                  type="number"
+                  min="0"
+                  value={value(k)}
+                  onChange={(e) => change(k, e.target.value)}
+                />
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
+      <details className="amenity-filters">
+        <summary>Features & amenities</summary>
+        {amenities.map((a) => (
+          <label key={a}>
+            <input
+              type="checkbox"
+              checked={selectedAmenities.includes(a)}
+              onChange={() => {
+                const updated = new URLSearchParams(params);
+                updated.delete("amenities");
+                const next = selectedAmenities.includes(a)
+                  ? selectedAmenities.filter((v) => v !== a)
+                  : [...selectedAmenities, a];
+                next.forEach((v) => updated.append("amenities", v));
+                setParams(updated, { replace: true });
+              }}
+            />
+            {a}
+          </label>
+        ))}
+      </details>
+      <Link to="/contact" className="text-link">
+        Speak to an Adviser →
+      </Link>
+    </>
+  );
   return (
-    <div className="min-h-screen bg-black-primary pt-24 pb-32">
+    <>
       <SeoHead
-        title="Luxury Properties - Botswana"
-        description="Explore our exclusive portfolio of residential, commercial, industrial, and land properties across Botswana. Advanced filtering for prime real estate."
+        title="Properties Botswana | Residential & Commercial | Tempest Gold Property"
+        description="Explore residential, commercial, industrial and other Botswana property assets. Filter by location, type, purpose, status, Pula price and area."
         url="/properties"
       />
-
-      {/* Desktop Filter Sidebar */}
-      <div className="hidden lg:block fixed left-0 top-[72px] w-80 h-[calc(100vh-72px)] bg-black-primary border-r border-gray-dark overflow-y-auto z-20 pb-32">
-        <div className="p-6 space-y-6 pb-32">
-          <div className="flex items-center justify-between">
-            <h3 className="text-white-accent font-semibold text-lg">Filters</h3>
-            {activeFilterCount > 0 && (
-              <button
-                onClick={clearFilters}
-                className="text-xs text-gold-primary hover:text-gold-secondary transition-colors"
-              >
-                Clear all
-              </button>
-            )}
-          </div>
-
-          {/* Location Filter */}
-          <FilterSection title="Location" expanded={true}>
-            <div className="space-y-2 max-h-64 overflow-y-auto">
-              {botswanaLocations.map(loc => (
-                <label key={loc.id} className="flex items-center gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={filters.cities.includes(loc.name)}
-                    onChange={() => toggleCity(loc.name)}
-                    className="w-4 h-4 rounded border-gray-medium bg-gray-dark accent-gold-primary cursor-pointer"
-                  />
-                  <span className="text-sm text-gray-light group-hover:text-white-accent transition-colors">
-                    {loc.name}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </FilterSection>
-
-          {/* Purpose Filter */}
-          <FilterSection title="Listing Purpose">
-            <div className="space-y-2">
-              {['All', 'For Sale', 'To Let', 'Development'].map(purpose => (
-                <button
-                  key={purpose}
-                  onClick={() => updateFilter('purpose', purpose as FilterState['purpose'])}
-                  className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                    filters.purpose === purpose
-                      ? 'bg-gold-primary/20 text-gold-primary'
-                      : 'text-gray-light hover:bg-gray-dark/50'
-                  }`}
-                >
-                  {purpose}
-                </button>
-              ))}
-            </div>
-          </FilterSection>
-
-          {/* Property Type Filter */}
-          <FilterSection title="Property Type">
-            <div className="space-y-2 max-h-64 overflow-y-auto">
-              {propertyTypes.map(type => (
-                <label key={type.id} className="flex items-center gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={filters.propertyTypes.includes(type.name)}
-                    onChange={() => togglePropertyType(type.name)}
-                    className="w-4 h-4 rounded border-gray-medium bg-gray-dark accent-gold-primary cursor-pointer"
-                  />
-                  <span className="text-sm text-gray-light group-hover:text-white-accent transition-colors">
-                    {type.name}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </FilterSection>
-
-          {/* Price Filter */}
-          <FilterSection title="Budget">
-            <div className="space-y-3">
-              {filters.purpose === 'To Let' && (
-                <>
-                  <div className="text-xs text-gray-light mb-2 font-medium">Quick Select (Monthly):</div>
-                  {QUICK_PRICE_RANGES_RENT.map(range => (
-                    <button
-                      key={range.label}
-                      onClick={() => {
-                        updateFilter('minPrice', range.min.toString());
-                        updateFilter('maxPrice', range.max === Infinity ? '' : range.max.toString());
-                      }}
-                      className="w-full text-left px-3 py-2 rounded text-sm text-gray-light hover:bg-gray-dark/50 transition-colors"
-                    >
-                      {range.label}
-                    </button>
-                  ))}
-                </>
-              )}
-              {filters.purpose !== 'To Let' && (
-                <>
-                  <div className="text-xs text-gray-light mb-2 font-medium">Quick Select:</div>
-                  {QUICK_PRICE_RANGES_SALE.map(range => (
-                    <button
-                      key={range.label}
-                      onClick={() => {
-                        updateFilter('minPrice', range.min.toString());
-                        updateFilter('maxPrice', range.max === Infinity ? '' : range.max.toString());
-                      }}
-                      className="w-full text-left px-3 py-2 rounded text-sm text-gray-light hover:bg-gray-dark/50 transition-colors"
-                    >
-                      {range.label}
-                    </button>
-                  ))}
-                </>
-              )}
-              <div className="grid grid-cols-2 gap-2 mt-4">
+      <section className="page-intro site-container compact-intro">
+        <p className="eyebrow">Properties</p>
+        <h1>
+          Your next
+          <br />
+          <em>property opportunity.</em>
+        </h1>
+        <p>
+          Explore property assets across Botswana. Find the details that matter,
+          and speak to an adviser about your next step.
+        </p>
+      </section>
+      <section className="site-container property-browser">
+        {collection.sample && <SampleNotice />}
+        <div className="property-browser-layout">
+          <aside className="desktop-filters">{filters}</aside>
+          <div className="property-results">
+            <div className="results-toolbar">
+              <label>
+                Keyword search
                 <input
-                  type="number"
-                  placeholder="Min"
-                  value={filters.minPrice}
-                  onChange={(e) => updateFilter('minPrice', e.target.value)}
-                  className="px-3 py-2 rounded bg-gray-dark border border-gray-medium text-white-accent placeholder-gray-medium text-sm focus:border-gold-primary outline-none transition-colors"
+                  value={value("q")}
+                  onChange={(e) => change("q", e.target.value)}
+                  placeholder="Area, property name, development or feature"
                 />
-                <input
-                  type="number"
-                  placeholder="Max"
-                  value={filters.maxPrice}
-                  onChange={(e) => updateFilter('maxPrice', e.target.value)}
-                  className="px-3 py-2 rounded bg-gray-dark border border-gray-medium text-white-accent placeholder-gray-medium text-sm focus:border-gold-primary outline-none transition-colors"
-                />
-              </div>
-            </div>
-          </FilterSection>
-
-          {/* Bedrooms Filter */}
-          <FilterSection title="Bedrooms">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => updateFilter('bedrooms', Math.max(0, parseInt(filters.bedrooms || '0') - 1).toString())}
-                className="w-10 h-10 flex items-center justify-center bg-gray-dark border border-gray-medium rounded hover:border-gold-primary transition-colors"
-              >
-                <Minus size={16} className="text-gray-light" />
-              </button>
-              <input
-                type="number"
-                value={filters.bedrooms}
-                onChange={(e) => updateFilter('bedrooms', e.target.value)}
-                className="flex-1 px-3 py-2 rounded bg-gray-dark border border-gray-medium text-white-accent text-center focus:border-gold-primary outline-none transition-colors"
-              />
-              <button
-                onClick={() => updateFilter('bedrooms', (parseInt(filters.bedrooms || '0') + 1).toString())}
-                className="w-10 h-10 flex items-center justify-center bg-gray-dark border border-gray-medium rounded hover:border-gold-primary transition-colors"
-              >
-                <Plus size={16} className="text-gray-light" />
-              </button>
-            </div>
-          </FilterSection>
-
-          {/* Bathrooms Filter */}
-          <FilterSection title="Bathrooms">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => updateFilter('bathrooms', Math.max(0, parseInt(filters.bathrooms || '0') - 1).toString())}
-                className="w-10 h-10 flex items-center justify-center bg-gray-dark border border-gray-medium rounded hover:border-gold-primary transition-colors"
-              >
-                <Minus size={16} className="text-gray-light" />
-              </button>
-              <input
-                type="number"
-                value={filters.bathrooms}
-                onChange={(e) => updateFilter('bathrooms', e.target.value)}
-                className="flex-1 px-3 py-2 rounded bg-gray-dark border border-gray-medium text-white-accent text-center focus:border-gold-primary outline-none transition-colors"
-              />
-              <button
-                onClick={() => updateFilter('bathrooms', (parseInt(filters.bathrooms || '0') + 1).toString())}
-                className="w-10 h-10 flex items-center justify-center bg-gray-dark border border-gray-medium rounded hover:border-gold-primary transition-colors"
-              >
-                <Plus size={16} className="text-gray-light" />
-              </button>
-            </div>
-          </FilterSection>
-
-          {/* Size Filter */}
-          <FilterSection title="Property Size (sqm)">
-            <div className="grid grid-cols-2 gap-2">
-              <input
-                type="number"
-                placeholder="Min"
-                value={filters.minSize}
-                onChange={(e) => updateFilter('minSize', e.target.value)}
-                className="px-3 py-2 rounded bg-gray-dark border border-gray-medium text-white-accent placeholder-gray-medium text-sm focus:border-gold-primary outline-none transition-colors"
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                value={filters.maxSize}
-                onChange={(e) => updateFilter('maxSize', e.target.value)}
-                className="px-3 py-2 rounded bg-gray-dark border border-gray-medium text-white-accent placeholder-gray-medium text-sm focus:border-gold-primary outline-none transition-colors"
-              />
-            </div>
-          </FilterSection>
-
-          {/* Amenities Filter */}
-          <FilterSection title="Features & Amenities">
-            <div className="grid grid-cols-2 gap-2">
-              {AMENITIES.map(amenity => (
-                <button
-                  key={amenity}
-                  onClick={() => toggleAmenity(amenity)}
-                  className={`px-3 py-2 rounded text-xs font-medium transition-colors ${
-                    filters.amenities.includes(amenity)
-                      ? 'bg-gold-primary text-black-primary'
-                      : 'bg-gray-dark text-gray-light border border-gray-medium hover:border-gold-primary'
-                  }`}
-                >
-                  {amenity}
-                </button>
-              ))}
-            </div>
-          </FilterSection>
-
-          {/* Sort Filter */}
-          <FilterSection title="Sort By">
-            <div className="space-y-2">
-              {[
-                { value: 'newest' as const, label: 'Newest Listings' },
-                { value: 'featured' as const, label: 'Featured Listings' },
-                { value: 'price-low' as const, label: 'Price Low → High' },
-                { value: 'price-high' as const, label: 'Price High → Low' },
-                { value: 'views' as const, label: 'Most Viewed' }
-              ].map(option => (
-                <button
-                  key={option.value}
-                  onClick={() => updateFilter('sortBy', option.value)}
-                  className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                    filters.sortBy === option.value
-                      ? 'bg-gold-primary/20 text-gold-primary'
-                      : 'text-gray-light hover:bg-gray-dark/50'
-                  }`}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </FilterSection>
-        </div>
-      </div>
-
-      {/* Mobile Filter Button & Header */}
-      <div className="sticky top-[72px] z-30 lg:hidden bg-black-primary/90 backdrop-blur-md border-b border-gray-dark">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-white-accent font-semibold">Properties</h1>
-          <button
-            onClick={() => setShowMobileFilter(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-gold-primary text-black-primary rounded-lg font-medium"
-          >
-            <Filter size={18} />
-            Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Filter Modal */}
-      <AnimatePresence>
-        {showMobileFilter && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50"
-            onClick={() => setShowMobileFilter(false)}
-          >
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25 }}
-              className="fixed right-0 top-0 h-full w-full max-w-sm bg-black-primary overflow-y-auto"
-              onClick={e => e.stopPropagation()}
-            >
-              <div className="sticky top-0 z-10 bg-black-primary border-b border-gray-dark p-6 flex items-center justify-between">
-                <h2 className="text-white-accent font-semibold text-lg">Filters</h2>
-                <button
-                  onClick={() => setShowMobileFilter(false)}
-                  className="p-2 hover:bg-gray-dark rounded transition-colors"
-                >
-                  <X size={24} className="text-gray-light" />
-                </button>
-              </div>
-
-              <div className="p-6 space-y-4 pb-32">
-                {/* Mobile Filter Sections */}
-                <MobileFilterSection
-                  title="Location"
-                  expanded={expandedSection === 'location'}
-                  onToggle={() => setExpandedSection(expandedSection === 'location' ? null : 'location')}
-                >
-                  <div className="space-y-2 max-h-56 overflow-y-auto">
-                    {botswanaLocations.map(loc => (
-                      <label key={loc.id} className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.cities.includes(loc.name)}
-                          onChange={() => toggleCity(loc.name)}
-                          className="w-4 h-4 rounded accent-gold-primary"
-                        />
-                        <span className="text-sm text-gray-light">{loc.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </MobileFilterSection>
-
-                <MobileFilterSection
-                  title="Purpose"
-                  expanded={expandedSection === 'purpose'}
-                  onToggle={() => setExpandedSection(expandedSection === 'purpose' ? null : 'purpose')}
-                >
-                  <div className="space-y-2">
-                    {['All', 'For Sale', 'To Let', 'Development'].map(purpose => (
-                      <button
-                        key={purpose}
-                        onClick={() => updateFilter('purpose', purpose as FilterState['purpose'])}
-                        className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                          filters.purpose === purpose
-                            ? 'bg-gold-primary/20 text-gold-primary'
-                            : 'text-gray-light'
-                        }`}
-                      >
-                        {purpose}
-                      </button>
-                    ))}
-                  </div>
-                </MobileFilterSection>
-
-                <MobileFilterSection
-                  title="Property Type"
-                  expanded={expandedSection === 'type'}
-                  onToggle={() => setExpandedSection(expandedSection === 'type' ? null : 'type')}
-                >
-                  <div className="space-y-2 max-h-56 overflow-y-auto">
-                    {propertyTypes.map(type => (
-                      <label key={type.id} className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.propertyTypes.includes(type.name)}
-                          onChange={() => togglePropertyType(type.name)}
-                          className="w-4 h-4 rounded accent-gold-primary"
-                        />
-                        <span className="text-sm text-gray-light">{type.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </MobileFilterSection>
-
-                <MobileFilterSection
-                  title="Bedrooms"
-                  expanded={expandedSection === 'bedrooms'}
-                  onToggle={() => setExpandedSection(expandedSection === 'bedrooms' ? null : 'bedrooms')}
-                >
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => updateFilter('bedrooms', Math.max(0, parseInt(filters.bedrooms || '0') - 1).toString())}
-                      className="w-10 h-10 flex items-center justify-center bg-gray-dark border border-gray-medium rounded"
-                    >
-                      <Minus size={16} />
-                    </button>
-                    <input
-                      type="number"
-                      value={filters.bedrooms}
-                      onChange={(e) => updateFilter('bedrooms', e.target.value)}
-                      className="flex-1 px-3 py-2 rounded bg-gray-dark border border-gray-medium text-center"
-                    />
-                    <button
-                      onClick={() => updateFilter('bedrooms', (parseInt(filters.bedrooms || '0') + 1).toString())}
-                      className="w-10 h-10 flex items-center justify-center bg-gray-dark border border-gray-medium rounded"
-                    >
-                      <Plus size={16} />
-                    </button>
-                  </div>
-                </MobileFilterSection>
-
-                <button
-                  onClick={() => {
-                    setShowMobileFilter(false);
-                  }}
-                  className="w-full bg-gold-primary text-black-primary py-3 rounded-lg font-bold mt-6"
-                >
-                  Apply Filters
-                </button>
-                
-                {activeFilterCount > 0 && (
-                  <button
-                    onClick={clearFilters}
-                    className="w-full bg-gray-dark border border-gray-medium text-gray-light py-3 rounded-lg font-medium"
-                  >
-                    Clear All Filters
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Main Content */}
-      <div className="flex">
-        {/* Desktop Sidebar Spacer */}
-        <div className="hidden lg:block w-80 flex-shrink-0"></div>
-
-        {/* Properties Grid */}
-        <div className="flex-1 px-6 py-8 pb-32">
-          <div className="container mx-auto px-6 md:px-0">
-            {/* Results Header */}
-            <div className="mb-8 flex items-center justify-between">
-              <div>
-                <h1 className="text-white-accent font-semibold text-xl hidden lg:block">
-                  {filteredProperties.length} Properties Found
-                </h1>
-                <p className="text-gray-light text-sm">
-                  {filteredProperties.length} properties match your filters
-                </p>
-              </div>
-              
-              {/* Sort Dropdown (Mobile) */}
-              <div className="lg:hidden">
+              </label>
+              <label>
+                Sort by
                 <select
-                  value={filters.sortBy}
-                  onChange={(e) => updateFilter('sortBy', e.target.value as FilterState['sortBy'])}
-                  className="px-3 py-2 bg-gray-dark border border-gray-medium text-white-accent rounded text-sm focus:border-gold-primary outline-none"
+                  value={value("sortBy") || "newest"}
+                  onChange={(e) => change("sortBy", e.target.value)}
                 >
                   <option value="newest">Newest</option>
-                  <option value="featured">Featured</option>
-                  <option value="price-low">Price Low</option>
-                  <option value="price-high">Price High</option>
-                  <option value="views">Most Viewed</option>
+                  <option value="featured">Featured first</option>
+                  <option value="price-low">Price: low to high</option>
+                  <option value="price-high">Price: high to low</option>
+                  <option value="views">Most viewed</option>
                 </select>
-              </div>
+              </label>
+              <button
+                className="button-outline mobile-filter-toggle"
+                onClick={(e) => {
+                  filterTrigger.current = e.currentTarget;
+                  setMobileOpen(true);
+                }}
+              >
+                <SlidersHorizontal size={16} /> Filters
+              </button>
             </div>
-
-            {/* Empty State */}
-            {filteredProperties.length === 0 ? (
-              <div className="py-24 text-center">
-                <div className="mb-4">
-                  <MapPin size={48} className="mx-auto text-gray-dark mb-4" />
+            <p className="result-count" aria-live="polite">
+              {collection.loading
+                ? "Loading properties…"
+                : `${result.length} ${collection.sample ? "sample listings" : "properties"}`}
+            </p>
+            {!collection.loading &&
+              (result.length ? (
+                <div className="property-grid results-grid">
+                  {result.map((p) => (
+                    <PropertyCard property={p} key={p.id} />
+                  ))}
                 </div>
-                <h2 className="text-white-accent text-2xl font-semibold mb-2">
-                  No properties match your filters
-                </h2>
-                <p className="text-gray-light mb-8">
-                  Try adjusting your search criteria to find properties
-                </p>
-                <button
-                  onClick={clearFilters}
-                  className="px-6 py-3 bg-gold-primary text-black-primary rounded-lg font-bold hover:bg-gold-secondary transition-colors"
-                >
-                  Clear Filters & View All
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-10">
-                {filteredProperties.map((property, index) => (
-                  <PropertyCard key={property.id} property={property} index={index} />
-                ))}
-              </div>
-            )}
+              ) : (
+                <EmptyState
+                  title="No properties match these filters"
+                  text="Adjust your filters or discuss your requirements with an adviser. Availability and property details should be confirmed before a decision."
+                />
+              ))}
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-// Filter Section Component
-function FilterSection({
-  title,
-  expanded = false,
-  children
-}: {
-  title: string;
-  expanded?: boolean;
-  children: React.ReactNode;
-}) {
-  const [isExpanded, setIsExpanded] = React.useState(expanded);
-
-  return (
-    <div className="border-b border-gray-dark pb-4">
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between py-2 text-white-accent hover:text-gold-primary transition-colors"
-      >
-        <span className="font-medium text-sm">{title}</span>
-        <ChevronDown
-          size={16}
-          className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-        />
-      </button>
-      {isExpanded && <div className="pt-4">{children}</div>}
-    </div>
-  );
-}
-
-// Mobile Filter Section Component
-function MobileFilterSection({
-  title,
-  expanded,
-  onToggle,
-  children
-}: {
-  title: string;
-  expanded: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="border-b border-gray-dark pb-4">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-2 text-white-accent"
-      >
-        <span className="font-medium">{title}</span>
-        <ChevronDown
-          size={18}
-          className={`transition-transform ${expanded ? 'rotate-180' : ''}`}
-        />
-      </button>
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="pt-4 overflow-hidden"
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      </section>
+      {mobileOpen && (
+        <div
+          ref={filterDialog}
+          className="filter-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Property filters"
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setMobileOpen(false);
+          }}
+        >
+          <div>
+            <button
+              autoFocus
+              className="filter-close"
+              aria-label="Close filters"
+              onClick={() => setMobileOpen(false)}
+            >
+              <X />
+            </button>
+            {filters}
+            <button
+              className="button-gold"
+              onClick={() => setMobileOpen(false)}
+            >
+              Show {result.length} {result.length === 1 ? "result" : "results"}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

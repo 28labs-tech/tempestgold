@@ -1,27 +1,27 @@
-import { useState, FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Shield, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useState, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Shield, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 
 export function AdminLogin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     const success = await login(email, password);
     setLoading(false);
     if (success) {
-      navigate('/admin');
+      navigate("/admin");
     } else {
-      setError('Invalid credentials');
+      setError("Invalid credentials");
     }
   };
 
@@ -32,20 +32,24 @@ export function AdminLogin() {
         <div className="w-full max-w-md mx-auto">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-gray-light hover:text-gold-primary transition-colors text-sm mb-10">
+            className="inline-flex items-center gap-2 text-gray-light hover:text-gold-primary transition-colors text-sm mb-10"
+          >
             <ArrowLeft size={16} />
             Back to Tempest Gold
           </Link>
 
           <div className="mb-8">
             <div className="w-12 h-12 bg-gold-primary rounded-sm flex items-center justify-center mb-6">
-              <span className="font-serif font-bold text-black-primary text-2xl">T</span>
+              <span className="font-serif font-bold text-black-primary text-2xl">
+                T
+              </span>
             </div>
             <h1 className="font-serif text-3xl md:text-4xl text-white-accent mb-3">
               Admin Portal
             </h1>
             <p className="text-gray-light text-sm leading-relaxed">
-              Authorized personnel only. This dashboard manages all Tempest Gold content, listings, and market data.
+              Authorized personnel only. This dashboard manages all Tempest Gold
+              content, listings, and market data.
             </p>
           </div>
 
@@ -77,7 +81,7 @@ export function AdminLogin() {
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
@@ -87,7 +91,8 @@ export function AdminLogin() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-light hover:text-gold-primary transition-colors">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-light hover:text-gold-primary transition-colors"
+                >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
@@ -96,8 +101,9 @@ export function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gold-primary text-black-primary font-bold py-4 rounded-lg hover:bg-gold-light transition-colors disabled:opacity-50 text-sm uppercase tracking-wider">
-              {loading ? 'Authenticating...' : 'Sign In to Dashboard'}
+              className="w-full bg-gold-primary text-black-primary font-bold py-4 rounded-lg hover:bg-gold-light transition-colors disabled:opacity-50 text-sm uppercase tracking-wider"
+            >
+              {loading ? "Authenticating..." : "Sign In to Dashboard"}
             </button>
           </form>
 
@@ -107,7 +113,8 @@ export function AdminLogin() {
             </p>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-gold-primary hover:text-gold-light transition-colors text-sm font-medium">
+              className="inline-flex items-center gap-2 text-gold-primary hover:text-gold-light transition-colors text-sm font-medium"
+            >
               Explore Properties <ArrowLeft size={14} className="rotate-180" />
             </Link>
           </div>
@@ -127,7 +134,7 @@ export function AdminLogin() {
             <div className="w-px h-12 bg-gold-primary" />
             <div>
               <p className="text-gold-primary text-xs font-bold uppercase tracking-[0.2em]">
-                Tempest Gold Estates
+                Tempest Gold Property
               </p>
               <p className="text-gray-light text-sm">
                 Content Management System
@@ -135,22 +142,22 @@ export function AdminLogin() {
             </div>
           </div>
           <h2 className="font-serif text-4xl xl:text-5xl text-white-accent leading-tight max-w-md">
-            Where Luxury
+            Property Expertise.
             <br />
-            <span className="text-gold-primary">Meets Precision</span>
+            <span className="text-gold-primary">Practical Advice.</span>
           </h2>
           <p className="text-gray-light text-sm mt-6 max-w-sm leading-relaxed">
-            Manage properties, research articles, market data, team profiles, and
-            press releases — all from a single, secure dashboard.
+            Manage properties, research articles, market data, team profiles,
+            and press releases — all from a single, secure dashboard.
           </p>
           <div className="flex gap-8 mt-10 text-xs text-gray-medium">
             <div className="flex items-center gap-2">
               <Shield size={14} className="text-gold-primary" />
-              Encrypted Access
+              Token-based Access
             </div>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-              Activity Logged
+              Content Management
             </div>
           </div>
         </div>
