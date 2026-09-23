@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { companyContact, services } from "../data/consultancy";
+import { NewsletterForm } from "./NewsletterForm";
 export function Footer() {
   return (
     <footer className="site-footer">
       <div className="site-container">
+        <NewsletterForm />
         <div className="footer-grid">
           <div className="footer-brand">
             <Link to="/" className="brand">
@@ -55,18 +57,15 @@ export function Footer() {
             <h2>Contact</h2>
             <p>Botswana</p>
             {companyContact.address && <p>{companyContact.address}</p>}
-            {companyContact.phone && (
-              <a href={`tel:${companyContact.phone.replace(/\s/g, "")}`}>
-                {companyContact.phone}
+            {companyContact.phones?.map((phone) => (
+              <a key={phone} href={`tel:${phone.replace(/\s/g, "")}`}>
+                {phone}
               </a>
-            )}
+            ))}
             {companyContact.email && (
               <a href={`mailto:${companyContact.email}`}>
                 {companyContact.email}
               </a>
-            )}
-            {!companyContact.email && !companyContact.phone && (
-              <p>Verified contact details will be added here.</p>
             )}
             <Link to="/contact">Speak to a Property Adviser</Link>
             {!!companyContact.locations?.length && (

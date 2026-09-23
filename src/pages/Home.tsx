@@ -1,37 +1,50 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BadgeCheck,
+  Building2,
+  GraduationCap,
+  Landmark,
+  MapPin,
+  Trophy,
+  Users,
+} from "lucide-react";
 import { SeoHead } from "../components/SeoHead";
-import { PropertyCard } from "../components/PropertyCard";
 import {
   SectionHeading,
-  ServiceGrid,
   FinalCta,
   EmptyState,
-  SampleNotice,
 } from "../components/Consultancy";
 import {
   introduction,
-  differentiators,
-  sectors,
-  propertyCategories,
+  servicePillars,
+  clients,
+  memberships,
   caseStudies,
 } from "../data/consultancy";
-import { useProperties } from "../data/property";
 import { useCollection } from "../hooks/useCollection";
 import { Insight, InsightCard } from "./Research";
+
+const credibility = [
+  "15+ years combined experience",
+  "Botswana market expertise",
+  "Professional affiliations",
+  "Industry leadership",
+  "Evidence-led advisory",
+];
+const clientIcons = [Landmark, Building2, Building2, Users, GraduationCap];
+
 export function Home() {
-  const navigate = useNavigate();
-  const properties = useProperties();
   const research = useCollection<Insight>("/research");
-  const featured = properties.items.filter((p) => p.featured).slice(0, 3);
   return (
     <div className="consultancy-home">
       <SeoHead
-        title="Tempest Gold Property | Real Estate Advisory Botswana"
-        description="Botswana-based real estate advisory and property consultancy. Property transactions, valuations, feasibility studies, research and property management."
+        title="Tempest Gold | Property Intelligence and Advisory Botswana"
+        description="Botswana property intelligence, strategic real estate advice, valuations, research, development and property solutions."
         url="/"
       />
-      <section className="advisory-hero">
+      <section className="advisory-hero refined-hero">
         <img
           className="hero-photo"
           src="/images/advisory-workspace.webp"
@@ -42,190 +55,140 @@ export function Home() {
         <div className="hero-shade" />
         <div className="site-container hero-content">
           <p className="eyebrow">
-            <MapPin size={14} aria-hidden="true" /> Botswana-based.
-            Property-focused.
+            <MapPin size={14} aria-hidden="true" /> Gaborone · Botswana · Africa
           </p>
           <h1>
-            PROPERTY ADVICE
+            Property Intelligence.
             <br />
-            THAT MOVES YOU
+            Strategic Advice.
             <br />
-            <em>FORWARD.</em>
+            <em>Better Decisions.</em>
           </h1>
           <p className="hero-description">
-            From property transactions and valuations to feasibility studies,
-            market research and property management, Tempest Gold provides
-            trusted real estate solutions grounded in Botswana market knowledge.
+            Professional real estate advisory and property solutions that create
+            value for a better Botswana.
           </p>
           <div className="button-row">
-            <Link to="/properties" className="button-gold">
-              Explore Properties <ArrowRight size={18} />
+            <Link to="/contact" className="button-gold">
+              Request a Consultation <ArrowRight size={18} />
             </Link>
-            <Link to="/contact" className="button-outline">
-              Speak to a Property Adviser <ArrowUpRight size={18} />
+            <Link to="/services" className="button-outline">
+              Explore Our Services
             </Link>
           </div>
           <div className="hero-foot">
-            <span>
-              Real Estate Expertise. Practical Advice. Better Property
-              Decisions.
-            </span>
-            <span>Illustrative workspace photography</span>
+            <span>Real insight. Lasting value.</span>
+            <span>People · Places · Potential</span>
           </div>
         </div>
       </section>
+      <div className="credibility-bar" aria-label="Tempest Gold credentials">
+        <div className="credibility-track">
+          {credibility.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+      </div>
+
       <section className="intro-section site-container">
         <div>
-          <p className="eyebrow">Who we are</p>
+          <p className="eyebrow">About Tempest Gold</p>
           <h2>
-            Local understanding.
+            Evidence-led advice.
             <br />
-            <em>Practical perspective.</em>
+            <em>Botswana perspective.</em>
           </h2>
         </div>
         <div>
           <p>{introduction}</p>
           <Link to="/about" className="text-link">
-            About Tempest Gold Property <ArrowUpRight size={18} />
+            About Tempest Gold <ArrowUpRight size={18} />
           </Link>
         </div>
       </section>
+
       <section className="section-pad section-dark">
         <div className="site-container">
           <SectionHeading
-            eyebrow="Across the property lifecycle"
-            title="Expertise for every property decision."
-            text="Professional advice and practical support, from your first question through to your next transaction, development or investment."
+            eyebrow="Our services"
+            title="Comprehensive property solutions across the lifecycle."
+            text="Three connected disciplines bring research, management and delivery expertise to each assignment."
           />
-          <ServiceGrid />
-          <Link className="text-link section-link" to="/services">
-            Explore Our Services <ArrowRight size={18} />
-          </Link>
-        </div>
-      </section>
-      <section className="section-pad site-container">
-        <div className="section-row">
-          <SectionHeading
-            eyebrow="Find your next opportunity"
-            title="Featured Properties"
-            text="Residential, commercial and other property assets. Explore the details, then discuss your requirements with an adviser."
-          />
-          <Link to="/properties" className="text-link">
-            Explore Properties <ArrowUpRight size={18} />
-          </Link>
-        </div>
-        <form
-          className="property-search"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const data = new FormData(e.currentTarget);
-            const params = new URLSearchParams();
-            ["q", "location", "type", "purpose"].forEach((key) => {
-              const value = String(data.get(key) || "");
-              if (value) params.set(key, value);
-            });
-            navigate(`/properties?${params}`);
-          }}
-        >
-          <label>
-            Keyword
-            <input name="q" placeholder="Area, property name or feature" />
-          </label>
-          <label>
-            Location
-            <input name="location" placeholder="Botswana location" />
-          </label>
-          <label>
-            Property type
-            <select name="type">
-              <option value="">All property types</option>
-              {propertyCategories.map((c) => (
-                <option key={c}>{c}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Purpose
-            <select name="purpose">
-              <option value="">Sale & lease</option>
-              <option value="For Sale">For Sale</option>
-              <option value="To Let">Rent / Lease</option>
-              <option value="Development">Development</option>
-            </select>
-          </label>
-          <button className="button-gold">
-            Search <ArrowRight size={18} />
-          </button>
-        </form>
-        {properties.sample && <SampleNotice />}
-        {properties.loading ? (
-          <p role="status">Loading properties…</p>
-        ) : featured.length ? (
-          <div className="property-grid">
-            {featured.map((p) => (
-              <PropertyCard property={p} key={p.id} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            title="Featured properties will be added here"
-            text="Speak to an adviser about the property type and location you have in mind."
-          />
-        )}
-      </section>
-      <section className="why-section section-pad">
-        <div className="site-container why-layout">
-          <SectionHeading
-            eyebrow="Why Tempest Gold?"
-            title="A clearer view of your property decisions."
-            text="Botswana knowledge, professional expertise and an independent perspective across the property lifecycle."
-          />
-          <div className="why-grid">
-            {differentiators.map(([title, text], i) => (
-              <article key={title}>
-                <span>{String(i + 1).padStart(2, "0")}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+          <div className="pillar-grid">
+            {servicePillars.map((pillar, index) => (
+              <article className="pillar-card" key={pillar.title}>
+                <span className="pillar-number">0{index + 1}</span>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.strapline}</p>
+                <ul>
+                  {pillar.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <Link to={pillar.href} className="text-link">
+                  Learn more <ArrowRight size={16} />
+                </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
-      <section className="section-pad site-container">
-        <div className="section-row">
+
+      <section className="why-section section-pad">
+        <div className="site-container">
           <SectionHeading
-            eyebrow="Evidence-led perspective"
-            title="Research & Insights"
-            text="Market reports, development insights and property commentary to support informed decisions."
+            eyebrow="Why Tempest Gold"
+            title="Local knowledge. Professional standing. Clear evidence."
+            text="Professional advice grounded in Botswana market knowledge and research-led methods."
           />
-          <Link to="/research" className="text-link">
-            Explore Research & Insights <ArrowUpRight size={18} />
-          </Link>
-        </div>
-        {research.items.length ? (
-          <div className="property-grid">
-            {research.items.slice(0, 3).map((a) => (
-              <InsightCard key={a._id || a.id} article={a} />
-            ))}
+          <div className="proof-grid">
+            <article>
+              <strong>15+</strong>
+              <span>Years of combined industry expertise</span>
+            </article>
+            <article>
+              <strong>Botswana</strong>
+              <span>Market coverage from South East to North West</span>
+            </article>
+            <article>
+              <strong>Evidence-led</strong>
+              <span>Research-grounded market methodologies</span>
+            </article>
+            <article>
+              <strong>100%</strong>
+              <span>Youth and female owned, proudly local</span>
+            </article>
           </div>
-        ) : (
-          <EmptyState
-            title={
-              research.loading
-                ? "Loading research…"
-                : "Research publications will be added here"
-            }
-            text="Verified Botswana market reports and insights will appear here when available. No unsourced market figures are displayed."
-          />
-        )}
+        </div>
       </section>
+
+      <section className="section-pad site-container">
+        <SectionHeading
+          eyebrow="Selected clients and partners"
+          title="Trusted by Organisations Across Botswana"
+          text="Our experience spans property, financial services, development, academia and the broader built environment."
+        />
+        <div className="client-groups">
+          {clients.map(([category, ...names], index) => {
+            const Icon = clientIcons[index];
+            return (
+              <article key={category}>
+                <Icon aria-hidden="true" />
+                <h3>{category}</h3>
+                <p>{names.join(" · ")}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
       <section className="section-pad section-dark">
         <div className="site-container">
           <div className="section-row">
             <SectionHeading
-              eyebrow="Our work in context"
-              title="Selected Projects / Case Studies"
-              text="A place for verified assignments in valuation, feasibility, market studies, development, advisory and property management."
+              eyebrow="Featured projects and case studies"
+              title="Our Work in Action"
+              text="Verified assignments will show the client or sector, assignment, location, scope and outcome once approved for publication."
             />
             <Link to="/projects" className="text-link">
               Explore Projects <ArrowUpRight size={18} />
@@ -237,36 +200,126 @@ export function Home() {
             </Link>
           ) : (
             <EmptyState
-              title="Selected assignments will be published here"
-              text="Project details and outcomes will be added when verified and approved for disclosure."
+              title="Project details are being prepared"
+              text="The company profile confirms experience across market research, transactions, valuations, advisory and property management. Assignment details will be published after client approval."
             />
           )}
-          <Link
-            to="/contact?service=Project%20enquiry"
-            className="text-link section-link"
-          >
-            Discuss a Similar Project <ArrowRight size={18} />
-          </Link>
         </div>
       </section>
+
       <section className="section-pad site-container">
-        <SectionHeading
-          eyebrow="Who we serve"
-          title="Different objectives. Practical property solutions."
-          text="Advice for individuals, businesses, investors and institutions."
-        />
-        <div className="sector-grid">
-          {sectors.map((s) => (
-            <span key={s}>
-              {s}
-              <ArrowUpRight size={14} aria-hidden="true" />
-            </span>
-          ))}
+        <div className="section-row">
+          <SectionHeading
+            eyebrow="Property intelligence"
+            title="Research that drives better decisions."
+            text="Market reports, research, publications and property insights distinguish our advice from conventional estate agency."
+          />
+          <Link to="/research" className="text-link">
+            Access Research & Reports <ArrowUpRight size={18} />
+          </Link>
         </div>
-        <p className="muted-small">
-          Government / public sector assignments can be included where
-          applicable and verified.
-        </p>
+        <div className="research-topics">
+          <span>Commercial and Office Market Review</span>
+          <span>Retail Market Review</span>
+          <span>Industrial Market Review</span>
+          <span>Hospitality Sector Study</span>
+        </div>
+        {research.items.length ? (
+          <div className="property-grid">
+            {research.items.slice(0, 3).map((article) => (
+              <InsightCard key={article._id || article.id} article={article} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            title={
+              research.loading
+                ? "Loading research…"
+                : "Research publications will be added here"
+            }
+            text="Published Botswana market reports and insights will appear here when available."
+          />
+        )}
+      </section>
+
+      <section className="section-pad professional-section">
+        <div className="site-container professional-grid">
+          <div>
+            <p className="eyebrow">Professional standing</p>
+            <h2>Professional Affiliations & Industry Leadership</h2>
+            <p>
+              We participate in professional networks that advance real estate
+              and the built environment in Botswana, Africa and internationally.
+            </p>
+            <ul className="membership-list">
+              {memberships.map((item) => (
+                <li key={item}>
+                  <BadgeCheck size={18} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <aside>
+            <h3>Industry leadership</h3>
+            <p>
+              Board and committee roles in Botswana's built environment, African
+              real estate leadership, teaching and research contributions.
+            </p>
+            <a
+              className="button-outline"
+              href="/documents/Tempest-Gold-Company-Profile-2026.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View Full Profile <ArrowUpRight size={17} />
+            </a>
+          </aside>
+        </div>
+      </section>
+
+      <section className="section-pad site-container leadership-section">
+        <SectionHeading
+          eyebrow="Leadership, fellowships and recognition"
+          title="Investing in Knowledge. Driving Impact."
+          text="Founder and Managing Director Dr Neltah Tshepiso Mokgware-Monosi combines property practice, research and industry leadership."
+        />
+        <div className="recognition-grid">
+          <article>
+            <Trophy />
+            <h3>Recognition</h3>
+            <p>
+              Young Property Person of the Year in Africa; Women in Africa
+              Botswana Laureate; Best Woman-Owned Property Technology Start-Up
+              Africa.
+            </p>
+          </article>
+          <article>
+            <GraduationCap />
+            <h3>Knowledge</h3>
+            <p>
+              BA in Economics and Accounting, MSc in Project Management and PhD
+              in Real Estate.
+            </p>
+          </article>
+          <article>
+            <Users />
+            <h3>Leadership programmes</h3>
+            <p>
+              African Management Institute, Stanford Seed, Academy for Women
+              Entrepreneurs, Tony Elumelu Foundation and Alibaba Global
+              Initiatives.
+            </p>
+          </article>
+        </div>
+        <a
+          className="text-link section-link"
+          href="/documents/Tempest-Gold-Company-Profile-2026.pdf"
+          target="_blank"
+          rel="noreferrer"
+        >
+          View Our Profile <ArrowRight size={18} />
+        </a>
       </section>
       <FinalCta />
     </div>

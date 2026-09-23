@@ -12,7 +12,7 @@ import {
 export const positioning =
   "Tempest Gold Property is a Botswana-based real estate advisory and property consultancy providing practical, evidence-led solutions across the property lifecycle.";
 export const introduction =
-  "At Tempest Gold Property, we believe good property decisions start with good advice. We combine local market knowledge, professional property expertise and practical analysis to help individuals, businesses, investors and institutions make confident real estate decisions.";
+  "Tempest Gold Property is a Botswana-based real estate advisory and property consultancy delivering professional, evidence-led solutions to individuals, businesses, investors and institutions. Our expertise spans the property lifecycle, from transactions, valuations and market research to feasibility studies, property management, project management and investment advisory. With deep knowledge of the Botswana property market and a commitment to professional excellence, we help clients understand opportunities, manage risk and make informed property decisions.";
 export const services = [
   {
     slug: "property-sales-lettings",
@@ -180,13 +180,89 @@ export const uses = [
 export const companyContact: {
   address?: string;
   phone?: string;
+  phones?: string[];
   email?: string;
   hours?: string;
   registration?: string;
   credentials?: string[];
   locations?: string[];
   social?: { name: string; url: string }[];
-} = {};
+} = {
+  address:
+    "Plot 22116, Fairdeal House, Gaborone West Industrial, Gaborone, Botswana",
+  phone: "+267 72 196 950",
+  phones: ["+267 72 196 950", "+267 78 758 315", "+267 31 65342"],
+  email: "info@tempestgold.online",
+  hours: "Monday to Friday, by appointment",
+  registration:
+    "Registered with the Real Estate Institute of Botswana and the Real Estate Advisory Council.",
+  credentials: ["REIB membership 398", "REAC registration 178/18"],
+  locations: ["PO Box 1, Metsimotlhabe, Botswana"],
+};
+
+export const servicePillars = [
+  {
+    title: "Advisory",
+    strapline: "Evidence-led insights for better decisions.",
+    href: "/services/property-consultancy",
+    items: [
+      "Valuations",
+      "Market Studies & Research",
+      "Feasibility Studies",
+      "Property Investment Advisory",
+      "Transaction Advisory",
+      "Highest & Best Use Analysis",
+    ],
+  },
+  {
+    title: "Property",
+    strapline: "Maximising value through expert management.",
+    href: "/services/property-asset-management",
+    items: [
+      "Sales & Lettings",
+      "Property Management",
+      "Asset Management",
+      "Corporate Real Estate Solutions",
+      "Land & Property Due Diligence",
+      "Portfolio Reviews",
+    ],
+  },
+  {
+    title: "Development",
+    strapline: "Turning opportunities into sustainable assets.",
+    href: "/services/project-management",
+    items: [
+      "Development Advisory",
+      "Project Management",
+      "Development Feasibility",
+      "Concept Development",
+      "Sustainability & ESG Advisory",
+      "Public-Private Partnerships",
+    ],
+  },
+];
+export const clients = [
+  ["Financial Institutions", "Stanbic Bank", "FNB", "LetsGo"],
+  [
+    "Property Companies & REITs",
+    "NAFPROP",
+    "Broll",
+    "Cushman & Wakefield",
+    "Property Heads",
+    "Otelli On",
+  ],
+  ["Developers & Contractors", "Lobatse Estates", "Property Pros"],
+  ["Corporate & Professional", "Mogobe Incorporated"],
+  ["Academic & Research", "Botho University"],
+] as const;
+export const memberships = [
+  "Real Estate Institute of Botswana (REIB) - membership 398",
+  "Real Estate Advisory Council (REAC) - registration 178/18",
+  "African Real Estate Society (AfRES)",
+  "International Real Estate Society (IRES)",
+  "Commonwealth Association of Surveying and Land Economy (CASLE)",
+  "Botswana Facilities Management Association (BOFMA)",
+];
 export interface CaseStudy {
   id: string;
   title: string;

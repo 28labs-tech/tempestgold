@@ -53,6 +53,24 @@ export function Legal() {
             including retention and data rights procedures, will be published
             when supplied.
           </p>
+          <h2>Newsletter and your choices</h2>
+          <p>
+            We use your name and email address to send the Tempest Gold
+            newsletter only after you actively opt in. Every marketing email
+            must provide a free way to unsubscribe. You may also email{" "}
+            <a href="mailto:info@tempestgold.online">info@tempestgold.online</a>{" "}
+            to withdraw consent, request access or correction, or ask a question
+            about your information.
+          </p>
+          <p>
+            <a
+              href="/documents/Botswana-Data-Protection-Act.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read the Botswana Data Protection Act supplied by Tempest Gold.
+            </a>
+          </p>
         </>
       ) : disclaimer ? (
         <>
@@ -106,6 +124,12 @@ export function Legal() {
             Full company-approved website and engagement terms will be added
             when supplied. No registration details or professional memberships
             are implied by this page.
+          </p>
+          <h2>Newsletter terms</h2>
+          <p>
+            The newsletter may contain market commentary, company news and
+            service information. Subscription is optional and does not create a
+            professional assignment. You can unsubscribe at any time at no cost.
           </p>
         </>
       )}

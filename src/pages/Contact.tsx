@@ -40,10 +40,16 @@ export function Contact() {
             <Phone aria-hidden="true" />
             <div>
               <h2>Call an adviser</h2>
-              {companyContact.phone ? (
-                <a href={`tel:${companyContact.phone.replace(/\s/g, "")}`}>
-                  {companyContact.phone}
-                </a>
+              {companyContact.phones?.length ? (
+                companyContact.phones.map((phone) => (
+                  <a
+                    key={phone}
+                    className="contact-phone"
+                    href={`tel:${phone.replace(/\s/g, "")}`}
+                  >
+                    {phone}
+                  </a>
+                ))
               ) : (
                 <p>Verified telephone details pending.</p>
               )}

@@ -1,47 +1,49 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
-
-interface SplashScreenProps {
-  onFinish: () => void;
-}
-
-export function SplashScreen({ onFinish }: SplashScreenProps) {
-  const [isVisible, setIsVisible] = useState(true);
-
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+export function SplashScreen({ onFinish }: { onFinish: () => void }) {
+  const [visible, setVisible] = useState(true);
   useEffect(() => {
-    // Set body background to white for splash screen
-    document.body.style.backgroundColor = '#FFFFFF';
-    
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 2000);
-
-    return () => {
-      clearTimeout(timer);
-      // Revert to black when splash is done
-      document.body.style.backgroundColor = '#0A0A0A';
-    };
+    const timer = setTimeout(() => setVisible(false), 1800);
+    return () => clearTimeout(timer);
   }, []);
-
-  const handleExitComplete = () => {
-    onFinish();
-  };
-
   return (
-    <AnimatePresence onExitComplete={handleExitComplete} mode="wait">
-      {isVisible && (
+    <AnimatePresence onExitComplete={onFinish} mode="wait">
+      {visible && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-white"
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          className="brand-splash"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.45 }}
         >
           <img
-            src="/images/logofull.png"
-            alt="Tempest Gold"
-            className="w-64 md:w-80 lg:w-96 h-auto"
+            className="splash-photo"
+            src="/images/advisory-workspace.webp"
+            alt=""
           />
+          <div className="splash-shade" />
+          <p className="splash-top-left">
+            Real Estate · Advisory · Solutions
+            <br />
+            For a Stronger Botswana
+          </p>
+          <p className="splash-top-right">People · Places · Potential</p>
+          <div className="splash-brand">
+            <img
+              src="/images/logofull.png"
+              alt="Tempest Gold - Your Property Pros"
+            />
+            <p>Building value. Empowering people. Transforming spaces.</p>
+            <div className="splash-progress">
+              <motion.span
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+              />
+            </div>
+            <small>Loading…</small>
+          </div>
+          <p className="splash-location">Gaborone · Botswana · Africa</p>
         </motion.div>
       )}
     </AnimatePresence>

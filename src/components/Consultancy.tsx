@@ -43,16 +43,11 @@ export function FinalCta() {
     <section className="final-cta">
       <div className="site-container">
         <p className="eyebrow">Your next step</p>
-        <h2>LET'S MAKE YOUR NEXT PROPERTY DECISION WITH CONFIDENCE.</h2>
-        <p>
-          Buying, selling or leasing? Speak to us about valuation, property
-          management, market research, feasibility studies, investment advice
-          and property consultancy.
-        </p>
+        <h2>Have a Property Decision to Make?</h2>
+        <p>Let's turn property information into strategic opportunity.</p>
         <div className="button-row">
           <Link to="/contact" className="button-gold">
-            Speak to a Property Adviser{" "}
-            <ArrowRight size={18} aria-hidden="true" />
+            Get in Touch <ArrowRight size={18} aria-hidden="true" />
           </Link>
           <Link to="/services" className="button-outline">
             Explore Our Services
