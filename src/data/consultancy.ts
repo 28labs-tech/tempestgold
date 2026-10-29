@@ -4,9 +4,10 @@ import {
   BarChart3,
   Compass,
   KeyRound,
-  Handshake,
   HardHat,
   BriefcaseBusiness,
+  Wrench,
+  Cpu,
 } from "lucide-react";
 
 export const positioning =
@@ -15,15 +16,18 @@ export const introduction =
   "Tempest Gold Property is a Botswana-based real estate advisory and property consultancy delivering professional, evidence-led solutions to individuals, businesses, investors and institutions. Our expertise spans the property lifecycle, from transactions, valuations and market research to feasibility studies, property management, project management and investment advisory. With deep knowledge of the Botswana property market and a commitment to professional excellence, we help clients understand opportunities, manage risk and make informed property decisions.";
 export const services = [
   {
-    slug: "property-sales-lettings",
-    title: "Property Sales & Lettings",
-    icon: Building2,
+    slug: "real-estate-advisory",
+    title: "Real Estate & Transaction Advisory",
+    icon: BriefcaseBusiness,
     description:
-      "Property marketing, sales and leasing support for residential, commercial, industrial and other property assets.",
+      "Independent commercial advice for acquisitions, disposals, negotiations, investment decisions and property transactions.",
+    audience: "Investors, institutions, developers, businesses and property owners.",
+    value: "Clarifies options, commercial implications and transaction risks before a commitment is made.",
+    engagement: "Share the decision, asset, location and intended transaction so that an appropriate advisory scope can be agreed.",
     focus: [
-      "Property marketing",
-      "Sales and leasing support",
-      "Transaction coordination",
+      "Acquisition and disposal advice",
+      "Investment decisions",
+      "Negotiation and transaction support",
     ],
   },
   {
@@ -32,6 +36,9 @@ export const services = [
     icon: Scale,
     description:
       "Professional valuation advice for transactions, financing, reporting, investment, asset management and other purposes.",
+    audience: "Property owners, lenders, investors, companies and institutions requiring an independent view of value.",
+    value: "Provides a defined valuation scope supported by relevant property and market evidence.",
+    engagement: "Provide the property location, valuation purpose, required timing and available property documents.",
     focus: [
       "Purpose and scope of valuation",
       "Property and market evidence",
@@ -39,11 +46,14 @@ export const services = [
     ],
   },
   {
-    slug: "market-studies-reports",
-    title: "Market Studies & Market Reports",
+    slug: "market-research-intelligence",
+    title: "Market Research & Market Intelligence",
     icon: BarChart3,
     description:
       "Evidence-led analysis covering market conditions, demand, supply, competition, rentals, pricing and investment opportunities.",
+    audience: "Investors, developers, lenders, public institutions and businesses assessing property markets.",
+    value: "Turns market evidence into a clearer view of demand, competition, pricing, risks and opportunity.",
+    engagement: "Outline the market, geography, asset class and decision the research needs to support.",
     focus: [
       "Demand and supply",
       "Rental and pricing evidence",
@@ -51,11 +61,14 @@ export const services = [
     ],
   },
   {
-    slug: "feasibility-studies",
-    title: "Feasibility Studies",
+    slug: "feasibility-development-advisory",
+    title: "Feasibility Studies & Development Advisory",
     icon: Compass,
     description:
       "Assessment of development concepts, market demand, highest and best use, financial viability, risks and commercial opportunities.",
+    audience: "Landowners, developers, investors, financiers and institutions considering development options.",
+    value: "Tests whether a concept responds to market demand and identifies material commercial risks before development progresses.",
+    engagement: "Share the site, proposed concept, development objectives, available studies and decision timetable.",
     focus: [
       "Development concepts",
       "Market demand and viability",
@@ -68,18 +81,24 @@ export const services = [
     icon: KeyRound,
     description:
       "Practical management support designed to protect asset performance, occupier relationships and investment value.",
+    audience: "Property owners, investors, companies and institutions responsible for operational property assets.",
+    value: "Supports asset performance, occupier relationships, reporting and long-term investment value.",
+    engagement: "Describe the portfolio or asset, current management arrangements and the outcomes that require attention.",
     focus: ["Asset performance", "Occupier relationships", "Investment value"],
   },
   {
-    slug: "investment-transaction-advisory",
-    title: "Investment & Transaction Advisory",
-    icon: Handshake,
+    slug: "facilities-lease-management",
+    title: "Facilities & Lease Management",
+    icon: Wrench,
     description:
-      "Independent advice supporting acquisition, disposal, investment decisions, negotiations and property transactions.",
+      "Coordinated support for facilities requirements, lease administration, occupier obligations and property operations.",
+    audience: "Businesses, landlords, occupiers and institutions managing premises or lease obligations.",
+    value: "Creates clearer oversight of facilities needs, lease milestones, service requirements and operational responsibilities.",
+    engagement: "Provide the property or portfolio scope, lease position, facilities requirements and current operational priorities.",
     focus: [
-      "Acquisition and disposal",
-      "Investment decisions",
-      "Negotiation and transaction support",
+      "Facilities coordination",
+      "Lease administration",
+      "Occupier and landlord obligations",
     ],
   },
   {
@@ -88,6 +107,9 @@ export const services = [
     icon: HardHat,
     description:
       "Property development and project coordination support from concept through implementation.",
+    audience: "Developers, investors, property owners and institutions delivering property initiatives.",
+    value: "Brings structure, coordination and decision support to a project from concept through implementation.",
+    engagement: "Share the project stage, objectives, stakeholders, programme and support required.",
     focus: [
       "Development coordination",
       "Concept and implementation",
@@ -95,15 +117,33 @@ export const services = [
     ],
   },
   {
-    slug: "property-consultancy",
-    title: "Property Consultancy",
-    icon: BriefcaseBusiness,
+    slug: "property-sales-lettings",
+    title: "Property Sales & Lettings",
+    icon: Building2,
     description:
-      "Tailored strategic, commercial and property-specific guidance.",
+      "Property marketing, sales and leasing support for commercial, residential, industrial and other property assets.",
+    audience: "Owners, landlords, buyers, tenants and investors entering a sale or lease transaction.",
+    value: "Supports market positioning, enquiries, negotiations and coordination through the transaction process.",
+    engagement: "Share the asset, location, ownership or occupancy objective, timing and available property information.",
     focus: [
-      "Strategic property advice",
-      "Commercial guidance",
-      "Property-specific solutions",
+      "Property marketing",
+      "Sales and leasing support",
+      "Transaction coordination",
+    ],
+  },
+  {
+    slug: "proptech-digital-solutions",
+    title: "PropTech & Digital Property Solutions",
+    icon: Cpu,
+    description:
+      "Property-focused digital solutions and advisory support for better information, processes and stakeholder experience.",
+    audience: "Property businesses, owners, managers, institutions and built-environment teams exploring digital improvement.",
+    value: "Helps define practical technology requirements around property information, operations and decision-making.",
+    engagement: "Describe the property process, information gap or user need that a digital solution should address.",
+    focus: [
+      "Digital property processes",
+      "Property information solutions",
+      "Technology requirements and advisory",
     ],
   },
 ];
@@ -204,7 +244,7 @@ export const servicePillars = [
   {
     title: "Advisory",
     strapline: "Evidence-led insights for better decisions.",
-    href: "/services/property-consultancy",
+    href: "/services/real-estate-advisory",
     items: [
       "Valuations",
       "Market Studies & Research",
@@ -230,7 +270,7 @@ export const servicePillars = [
   {
     title: "Development",
     strapline: "Turning opportunities into sustainable assets.",
-    href: "/services/project-management",
+    href: "/services/feasibility-development-advisory",
     items: [
       "Development Advisory",
       "Project Management",

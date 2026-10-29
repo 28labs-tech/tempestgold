@@ -58,8 +58,8 @@ export function Projects() {
           </div>
         ) : (
           <EmptyState
-            title="Verified case studies will be added here"
-            text="Assignment locations, challenges, scopes of work and outcomes will appear when approved for publication. No client names or projects have been invented."
+            title="No case studies are currently published"
+            text="Project information is withheld until the assignment details and publication permission are confirmed. Discuss relevant experience directly with an adviser."
           />
         )}
         <div className="related-links">

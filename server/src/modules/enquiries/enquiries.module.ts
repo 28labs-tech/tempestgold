@@ -18,6 +18,8 @@ import {
   MinLength,
   IsUUID,
   Equals,
+  IsBoolean,
+  IsISO8601,
 } from "class-validator";
 import { MongooseModule, InjectModel } from "@nestjs/mongoose";
 import { Schema, Model } from "mongoose";
@@ -35,6 +37,9 @@ export class EnquiryDto {
   @IsString() @MaxLength(120) intent: string;
   @IsString() @MinLength(3) @MaxLength(10000) message: string;
   @Equals(true) consent: boolean;
+  @IsString() @MaxLength(80) consentVersion: string;
+  @IsISO8601() consentTimestamp: string;
+  @IsBoolean() marketingConsent: boolean;
 }
 const receiptSchema = new Schema({
   requestId: { type: String, unique: true, required: true },
@@ -49,12 +54,27 @@ interface EmailReceipt {
   status: string;
   expiresAt: Date;
 }
+interface EnquiryConfig {
+  smtpHost: string;
+  smtpPort: number;
+  smtpSecure: boolean;
+  smtpUser?: string;
+  smtpPassword?: string;
+  emailFrom: string;
+  enquiryTo: string;
+}
+
+function errorCode(error: unknown) {
+  return typeof error === "object" && error !== null && "code" in error
+    ? (error as { code?: string | number }).code
+    : undefined;
+}
 
 @Injectable()
 export class EnquiriesService implements OnModuleDestroy {
   private transport: ReturnType<typeof nodemailer.createTransport>;
   constructor(
-    @Inject("ENV_CONFIG") private config: any,
+    @Inject("ENV_CONFIG") private config: EnquiryConfig,
     @InjectModel("EmailReceipt") private receipts: Model<EmailReceipt>,
   ) {
     const local = ["localhost", "127.0.0.1", "::1"].includes(config.smtpHost);
@@ -103,8 +123,8 @@ export class EnquiriesService implements OnModuleDestroy {
         status: "sending",
         expiresAt: new Date(Date.now() + 86400000),
       });
-    } catch (error: any) {
-      if (error.code !== 11000) throw error;
+    } catch (error: unknown) {
+      if (errorCode(error) !== 11000) throw error;
       const previous = await this.receipts.findOne({ requestId }).lean();
       if (previous?.fingerprint !== fingerprint)
         throw new ConflictException(
@@ -123,16 +143,20 @@ export class EnquiriesService implements OnModuleDestroy {
         replyTo: { name: data.name, address: data.email },
         subject: `Website enquiry: ${data.intent.replace(/[\r\n]/g, " ")}${data.property ? ` — ${data.property.replace(/[\r\n]/g, " ")}` : ""}`,
         messageId: `<${requestId}@${this.config.emailFrom.split("@").pop()}>`,
-        text: `Reference: ${requestId}\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || "Not provided"}\nService: ${data.service || "General enquiry"}\nProperty: ${data.property || "Not specified"}\n\n${data.message}`,
+        text: `Reference: ${requestId}\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || "Not provided"}\nService: ${data.service || "General enquiry"}\nProperty: ${data.property || "Not specified"}\nConsent version: ${data.consentVersion}\nConsent time: ${data.consentTimestamp}\nOptional marketing consent: ${data.marketingConsent ? "Yes" : "No"}\n\n${data.message}`,
       });
       if (!result.accepted?.length || result.rejected?.length)
         throw new Error("Recipient rejected");
       accepted = true;
       await this.receipts.updateOne({ requestId }, { status: "sent" });
       return { status, reference: requestId };
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Retain an uncertain receipt after SMTP acceptance to avoid duplicate mail.
-      const uncertain = accepted || ['ETIMEDOUT', 'ESOCKET', 'ECONNRESET'].includes(error?.code);
+      const uncertain =
+        accepted ||
+        ["ETIMEDOUT", "ESOCKET", "ECONNRESET"].includes(
+          String(errorCode(error)),
+        );
       if (!uncertain) await this.receipts.deleteOne({ requestId });
       throw new ServiceUnavailableException(
         uncertain

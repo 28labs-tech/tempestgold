@@ -35,13 +35,15 @@ async function main() {
   };
   const config = { smtpHost:'127.0.0.1', smtpPort:smtp.address().port, smtpSecure:false, emailFrom:'website@example.test', enquiryTo:'adviser@example.test' };
   const service = new EnquiriesService(config, receipts);
-  const data = Object.assign(new EnquiryDto(), { requestId:randomUUID(), name:'Test Person', email:'visitor@example.test', phone:'', service:'Valuation', property:'Test property', intent:'Consultation', message:'Local test enquiry only.', consent:true });
+  const data = Object.assign(new EnquiryDto(), { requestId:randomUUID(), name:'Test Person', email:'visitor@example.test', phone:'', service:'Valuation', property:'Test property', intent:'Consultation', message:'Local test enquiry only.', consent:true, consentVersion:'website-consent-2026-10-29', consentTimestamp:'2026-10-29T08:00:00.000Z', marketingConsent:false });
   try {
     assert.equal((await validate(data)).length, 0);
     assert.equal((await service.submit(data)).status, 'sent');
     assert.equal(messages.length, 1);
     assert.match(messages[0], /Reply-To: Test Person <visitor@example.test>/);
     assert.match(messages[0], /To: adviser@example.test/);
+    assert.match(messages[0], /Consent version: website-consent-2026-10-29/);
+    assert.match(messages[0], /Optional marketing consent: No/);
     await service.submit(data);
     assert.equal(messages.length, 1, 'A retry must not send a duplicate');
     await assert.rejects(service.submit({...data,message:'Changed content'}), /already used/);

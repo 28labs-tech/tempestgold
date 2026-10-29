@@ -132,7 +132,7 @@ export function Research() {
             title={
               error
                 ? "Research is temporarily unavailable"
-                : "Research publications will be added here"
+                : "No research publications are currently available"
             }
             text={
               category === "All"

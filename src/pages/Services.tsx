@@ -7,8 +7,8 @@ export function Services() {
   return (
     <>
       <SeoHead
-        title="Property Services Botswana | Tempest Gold Property"
-        description="Property sales and lettings, valuations, market studies, feasibility studies, asset management, investment advisory, project management and property consultancy in Botswana."
+        title="Real Estate Advisory Services Botswana | Tempest Gold Property"
+        description="Real estate advisory, valuations, market intelligence, feasibility, property and facilities management, project management, transactions and PropTech in Botswana."
         url="/services"
       />
       <ServicesContent />
@@ -26,9 +26,9 @@ function ServicesContent() {
           <em>Practical advice.</em>
         </h1>
         <p>
-          Real estate solutions across the property lifecycle, grounded in
-          Botswana market knowledge. Explore how we can support your next
-          decision.
+          Clearly defined advice for investors, institutions, developers,
+          businesses and property owners across the property lifecycle. Each
+          service connects the work involved with the decision it supports.
         </p>
       </section>
       <section className="site-container section-pad pt-0">
@@ -82,12 +82,12 @@ export function ServiceDetail() {
       <section className="site-container service-detail-layout section-pad pt-0">
         <div>
           <h2>Advice shaped around your objectives.</h2>
-          <p>
-            Every assignment starts with understanding your property, the
-            decision you need to make and the evidence required. We consider the
-            relevant Botswana market context and agree an appropriate scope with
-            you.
-          </p>
+          <h3>What the service involves</h3>
+          <p>{service.description}</p>
+          <h3>Who it is for</h3>
+          <p>{service.audience}</p>
+          <h3>The value it delivers</h3>
+          <p>{service.value}</p>
           <h3>Areas of focus</h3>
           <ul className="focus-list">
             {service.focus.map((f) => (
@@ -95,11 +95,7 @@ export function ServiceDetail() {
             ))}
           </ul>
           <h3>Start with a conversation</h3>
-          <p>
-            Tell us the property location, property type, purpose of the
-            assignment and any relevant timing. Available documents and
-            background information can help establish the next steps.
-          </p>
+          <p>{service.engagement}</p>
         </div>
         <aside className="info-panel">
           <h2>Common questions</h2>
@@ -139,6 +135,7 @@ export function ServiceDetail() {
         <div className="related-links">
           {services
             .filter((s) => s.slug !== slug)
+            .slice(0, 4)
             .map((s) => (
               <Link key={s.slug} to={`/services/${s.slug}`}>
                 {s.title}

@@ -2,6 +2,11 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { sendEnquiry } from "../api/enquiries";
+import {
+  CONSENT_VERSION,
+  newsletterConsent,
+  marketingConsent,
+} from "../data/consent";
 export function NewsletterForm() {
   const requestId = useRef(crypto.randomUUID());
   const [state, setState] = useState<"idle" | "sending" | "sent" | "captured">(
@@ -30,6 +35,9 @@ export function NewsletterForm() {
             message:
               "Please add me to the Tempest Gold newsletter mailing list.",
             consent: true,
+            consentVersion: CONSENT_VERSION,
+            consentTimestamp: new Date().toISOString(),
+            marketingConsent: data.get("marketingConsent") === "on",
           });
           setState(result.status);
           form.reset();
@@ -72,10 +80,17 @@ export function NewsletterForm() {
         </button>
       </div>
       <label className="consent-label">
-        <input name="consent" type="checkbox" required />I have read and accept
-        the <Link to="/terms">newsletter terms</Link> and{" "}
-        <Link to="/privacy">privacy notice</Link>, and consent to receive
-        marketing email. I can unsubscribe at any time at no cost.
+        <input name="consent" type="checkbox" required />
+        <span>
+          <strong>Required.</strong> {newsletterConsent}{" "}
+          <Link to="/privacy">Privacy Notice</Link>
+        </span>
+      </label>
+      <label className="consent-label">
+        <input name="marketingConsent" type="checkbox" />
+        <span>
+          <strong>Optional.</strong> {marketingConsent}
+        </span>
       </label>
       <p className="muted-small">
         Read the supplied{" "}
@@ -98,6 +113,13 @@ export function NewsletterForm() {
           not joined a live mailing list.
         </p>
       )}
+      <p className="muted-small">
+        To withdraw consent, email{" "}
+        <a href="mailto:info@tempestgold.online?subject=Unsubscribe%20request">
+          info@tempestgold.online
+        </a>
+        .
+      </p>
     </form>
   );
 }

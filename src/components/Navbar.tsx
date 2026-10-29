@@ -5,9 +5,8 @@ const links = [
   ["Home", "/"],
   ["About Us", "/about"],
   ["Services", "/services"],
-  ["Properties", "/properties"],
-  ["Research & Insights", "/research"],
-  ["Projects / Case Studies", "/projects"],
+  ["Projects", "/projects"],
+  ["Insights", "/research"],
   ["Contact", "/contact"],
 ];
 export function Navbar() {

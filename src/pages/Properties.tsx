@@ -3,11 +3,11 @@ import { useSearchParams, Link } from "react-router-dom";
 import { SlidersHorizontal, X } from "lucide-react";
 import { SeoHead } from "../components/SeoHead";
 import { PropertyCard } from "../components/PropertyCard";
-import { SampleNotice, EmptyState } from "../components/Consultancy";
+import { EmptyState } from "../components/Consultancy";
 import { propertyCategories, uses } from "../data/consultancy";
-import { botswanaLocations } from "../data/mockData";
 import {
   useProperties,
+  botswanaLocations,
   amountFor,
   categoryFor,
   isRental,
@@ -73,7 +73,7 @@ export function Properties() {
   const location = value("location") || value("cities");
   const residentialOnly =
     type === "Residential" || /residential|studio/i.test(type);
-  const locations = botswanaLocations.map(location => location.name).sort();
+  const locations = [...botswanaLocations].sort();
   const amenities = [
     ...new Set(collection.items.flatMap((p) => p.amenities)),
   ].sort();
@@ -385,7 +385,6 @@ export function Properties() {
         </p>
       </section>
       <section className="site-container property-browser">
-        {collection.sample && <SampleNotice />}
         <div className="property-browser-layout">
           <aside className="desktop-filters">{filters}</aside>
           <div className="property-results">
@@ -424,7 +423,7 @@ export function Properties() {
             <p className="result-count" aria-live="polite">
               {collection.loading
                 ? "Loading properties…"
-                : `${result.length} ${collection.sample ? "sample listings" : "properties"}`}
+                : `${result.length} ${result.length === 1 ? "property" : "properties"}`}
             </p>
             {!collection.loading &&
               (result.length ? (

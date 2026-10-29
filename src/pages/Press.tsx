@@ -48,7 +48,7 @@ export function Press() {
             title={
               error
                 ? "Company news temporarily unavailable"
-                : "Verified announcements will be added here"
+                : "No announcements are currently published"
             }
             text="No unsupported awards, transactions or company achievements are published."
           />

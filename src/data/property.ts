@@ -1,6 +1,25 @@
-import { properties as samples } from "./mockData";
 import { useCollection } from "../hooks/useCollection";
 import { useMemo } from "react";
+
+export const botswanaLocations = [
+  "Gaborone",
+  "Francistown",
+  "Maun",
+  "Kasane",
+  "Mogoditshane",
+  "Tlokweng",
+  "Molepolole",
+  "Serowe",
+  "Palapye",
+  "Kanye",
+  "Ramotswa",
+  "Letlhakane",
+  "Orapa",
+  "Mahalapye",
+  "Mmopane",
+  "Gabane",
+  "Thamaga",
+];
 
 export interface Property {
   id: string;
@@ -35,10 +54,6 @@ export interface Property {
   views?: number;
   sample?: boolean;
 }
-export const sampleProperties: Property[] = samples.map((p) => ({
-  ...p,
-  sample: true,
-}));
 export function categoryFor(type: string) {
   const value = type.toLowerCase();
   if (/mixed/.test(value)) return "Mixed-Use";
@@ -87,6 +102,5 @@ export function useProperties() {
       })),
     [collection.items],
   );
-  const sample = !collection.loading && items.length === 0;
-  return { ...collection, items: sample ? sampleProperties : items, sample };
+  return { ...collection, items, sample: false };
 }

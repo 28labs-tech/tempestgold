@@ -15,7 +15,6 @@ function load(filename) {
   const module = { exports: {} };
   const localRequire = (name) => {
     if (name === "../hooks/useCollection") return {};
-    if (name === "./mockData") return load("src/data/mockData.ts");
     return require(name);
   };
   vm.runInNewContext(output, {
@@ -31,13 +30,9 @@ const {
   categoryFor,
   isResidential,
   statusFor,
-  sampleProperties,
+  botswanaLocations,
 } = load("src/data/property.ts");
-assert.equal(
-  sampleProperties.length,
-  load("src/data/mockData.ts").properties.length,
-);
-assert.ok(sampleProperties.every((p) => p.sample));
+assert.ok(botswanaLocations.includes("Gaborone"));
 assert.equal(priceFor({ purpose: "For Sale" }), "POA");
 assert.equal(priceFor({ purpose: "To Let", price: 3000000 }), "POA");
 assert.equal(priceFor({ purpose: "For Sale", price: 0 }), "POA");
@@ -77,5 +72,5 @@ assert.equal(commercial.bedrooms, undefined);
 assert.equal(commercial.lettableArea, 320);
 assert.equal(commercial.uses[0], "Commercial Use");
 console.log(
-  "Redesign checks passed: POA, Pula prices, rental amounts, property categories, sample disclosure, and commercial schema.",
+  "Redesign checks passed: POA, Pula prices, rental amounts, property categories, verified-location filters, and commercial schema.",
 );

@@ -3,11 +3,14 @@ import { SeoHead } from "../components/SeoHead";
 export function Legal() {
   const { pathname } = useLocation();
   const privacy = pathname === "/privacy",
-    disclaimer = pathname === "/property-disclaimer";
+    disclaimer = pathname === "/property-disclaimer",
+    cookies = pathname === "/cookies";
   const title = privacy
     ? "Privacy Notice"
     : disclaimer
       ? "Property Disclaimer"
+      : cookies
+        ? "Cookie Notice"
       : "Website Terms";
   return (
     <article className="article-page site-container">
@@ -49,9 +52,13 @@ export function Legal() {
           </p>
           <h2>Full company policy</h2>
           <p>
-            Verified privacy contact details and the company's full policy,
-            including retention and data rights procedures, will be published
-            when supplied.
+            This notice describes processing carried out through the website.
+            Questions about access, correction, deletion, objection or other
+            data-protection rights can be sent to{" "}
+            <a href="mailto:info@tempestgold.online">
+              info@tempestgold.online
+            </a>
+            . Requests are assessed under the applicable Botswana requirements.
           </p>
           <h2>Newsletter and your choices</h2>
           <p>
@@ -61,6 +68,12 @@ export function Legal() {
             <a href="mailto:info@tempestgold.online">info@tempestgold.online</a>{" "}
             to withdraw consent, request access or correction, or ask a question
             about your information.
+          </p>
+          <h2>Consent records</h2>
+          <p>
+            Website forms record the consent wording version and submission
+            time with the email request. Optional marketing consent is recorded
+            separately from the acknowledgement needed to answer an enquiry.
           </p>
           <p>
             <a
@@ -72,6 +85,34 @@ export function Legal() {
             </a>
           </p>
         </>
+      ) : cookies ? (
+        <>
+          <h2>Current use of browser storage</h2>
+          <p>
+            Public pages currently use local browser storage only to remember
+            that the cookie notice has been acknowledged. This is an essential
+            preference and does not track activity across other websites.
+          </p>
+          <h2>Administrative access</h2>
+          <p>
+            The restricted administration area stores an authentication token
+            after an authorised user signs in. Public visitors do not receive
+            this token.
+          </p>
+          <h2>Analytics and advertising</h2>
+          <p>
+            Analytics and advertising cookies are not currently active. If
+            non-essential tracking is introduced, the notice and controls must
+            be updated before activation so visitors can make an appropriate
+            choice.
+          </p>
+          <h2>Managing storage</h2>
+          <p>
+            You can clear stored website data through your browser settings.
+            Clearing the preference will cause the essential-storage notice to
+            appear again on your next visit.
+          </p>
+        </>
       ) : disclaimer ? (
         <>
           <h2>Confirm before making a decision</h2>
@@ -79,13 +120,6 @@ export function Legal() {
             Property prices, availability, descriptions, photographs and
             measurements must be confirmed with an adviser. A listing is
             informational and does not constitute a binding offer.
-          </p>
-          <h2>Sample listings</h2>
-          <p>
-            Listings marked as sample or preview content are demonstrations
-            using existing application data and illustrative photography. They
-            are not verified available properties. Their names, prices,
-            locations and descriptions are not actual market evidence.
           </p>
           <h2>Property-specific information</h2>
           <p>
@@ -121,9 +155,11 @@ export function Legal() {
           </p>
           <h2>Company terms</h2>
           <p>
-            Full company-approved website and engagement terms will be added
-            when supplied. No registration details or professional memberships
-            are implied by this page.
+            Information on this website is supplied in good faith for general
+            information. Intellectual property in original website content
+            remains with its respective owner. You may not present website
+            content as professional advice or reproduce it commercially without
+            permission.
           </p>
           <h2>Newsletter terms</h2>
           <p>

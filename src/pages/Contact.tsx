@@ -30,10 +30,7 @@ export function Contact() {
             <MapPin aria-hidden="true" />
             <div>
               <h2>Botswana-based advice</h2>
-              <p>
-                {companyContact.address ||
-                  "Verified office address will be added here."}
-              </p>
+              <p>{companyContact.address}</p>
             </div>
           </div>
           <div className="contact-item">

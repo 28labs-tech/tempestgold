@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,7 +10,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
-import { SplashScreen } from "./components/SplashScreen";
 import { Home } from "./pages/Home";
 import { Properties } from "./pages/Properties";
 import { PropertyDetail } from "./pages/PropertyDetail";
@@ -84,6 +83,7 @@ import { Projects } from "./pages/Projects";
 import { Legal } from "./pages/Legal";
 import { SeoHead } from "./components/SeoHead";
 import { EmptyState } from "./components/Consultancy";
+import { CookieNotice } from "./components/CookieNotice";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -113,17 +113,12 @@ function PublicLayout({ children }: { children: JSX.Element }) {
         {children}
       </main>
       <Footer />
+      <CookieNotice />
     </div>
   );
 }
 
 export function App() {
-  const [splashDone, setSplashDone] = useState(false);
-
-  if (!splashDone) {
-    return <SplashScreen onFinish={() => setSplashDone(true)} />;
-  }
-
   return (
     <HelmetProvider>
       <AuthProvider>
@@ -236,6 +231,14 @@ export function App() {
               />
               <Route
                 path="/terms"
+                element={
+                  <PublicLayout>
+                    <Legal />
+                  </PublicLayout>
+                }
+              />
+              <Route
+                path="/cookies"
                 element={
                   <PublicLayout>
                     <Legal />

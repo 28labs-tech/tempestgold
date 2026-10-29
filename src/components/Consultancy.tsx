@@ -80,12 +80,3 @@ export function EmptyState({
     </div>
   );
 }
-export function SampleNotice() {
-  return (
-    <p className="sample-notice">
-      Preview content: these are existing sample listings with illustrative
-      photography, not verified available properties. Prices and details are for
-      demonstration. Confirm all information with an adviser.
-    </p>
-  );
-}

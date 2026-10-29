@@ -56,7 +56,7 @@ export function Blog() {
             title={
               error
                 ? "Commentary temporarily unavailable"
-                : "Property commentary will be added here"
+                : "No commentary is currently published"
             }
             text="Verified editorial publications will appear here when available."
           />

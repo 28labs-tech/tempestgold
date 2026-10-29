@@ -5,11 +5,17 @@ import { SeoHead } from "../components/SeoHead";
 import { propertyCategories } from "../data/consultancy";
 import { Link } from "react-router-dom";
 import { sendEnquiry } from "../api/enquiries";
+import {
+  CONSENT_VERSION,
+  enquiryConsent,
+  marketingConsent,
+} from "../data/consent";
 export function Valuation() {
   const [sending, setSending] = useState(false);
   const [captured, setCaptured] = useState(false);
   const [deliveryError, setDeliveryError] = useState("");
   const [consent, setConsent] = useState(false);
+  const [marketing, setMarketing] = useState(false);
   const requestId = useRef(crypto.randomUUID());
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -70,6 +76,9 @@ export function Valuation() {
           property: formData.location,
           intent: "Valuation consultation",
           consent: true,
+          consentVersion: CONSENT_VERSION,
+          consentTimestamp: new Date().toISOString(),
+          marketingConsent: marketing,
           message: `Property: ${formData.type}, ${formData.location}\nArea: ${formData.size} ${formData.unit}\nBedrooms: ${formData.type === "Residential" ? formData.bedrooms : "Not applicable"}\nYear built: ${formData.yearBuilt || "Not provided"}\nCondition: ${formData.condition}\nFeatures: ${formData.features.join(", ")}\nExpected range (P): ${formData.budget}\nDocuments are not attached.`,
         });
         setCaptured(result.status === "captured");
@@ -754,8 +763,20 @@ export function Valuation() {
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
                 />
-                I agree to use of my details to respond to this enquiry.{" "}
-                <Link to="/privacy">Privacy notice</Link>
+                <span>
+                  <strong>Required.</strong> {enquiryConsent}{" "}
+                  <Link to="/privacy">Privacy Notice</Link>
+                </span>
+              </label>
+              <label className="consent-label mt-6">
+                <input
+                  type="checkbox"
+                  checked={marketing}
+                  onChange={(e) => setMarketing(e.target.checked)}
+                />
+                <span>
+                  <strong>Optional.</strong> {marketingConsent}
+                </span>
               </label>
               {deliveryError && <p role="alert">{deliveryError}</p>}
               <div className="mt-12">

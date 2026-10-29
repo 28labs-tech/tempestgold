@@ -50,7 +50,7 @@ export function Team() {
             title={
               error
                 ? "Team profiles temporarily unavailable"
-                : "Verified team profiles will be added here"
+                : "No additional team profiles are currently published"
             }
             text="Names, biographies and professional credentials will be published when confirmed. No placeholder staff credentials are presented."
           />

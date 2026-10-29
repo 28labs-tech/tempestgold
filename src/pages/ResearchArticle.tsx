@@ -67,7 +67,7 @@ export function ResearchArticle({ blog = false }: { blog?: boolean }) {
         content={
           article.content ||
           article.excerpt ||
-          "Publication content will be added here."
+          "The full publication is not available through this website."
         }
       />
       {report && (

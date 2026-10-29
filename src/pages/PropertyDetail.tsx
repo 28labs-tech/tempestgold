@@ -17,7 +17,7 @@ import {
   categoryFor,
 } from "../data/property";
 import { SeoHead } from "../components/SeoHead";
-import { SampleNotice, EmptyState } from "../components/Consultancy";
+import { EmptyState } from "../components/Consultancy";
 import { EnquiryForm } from "../components/EnquiryForm";
 export function PropertyDetail() {
   const { id } = useParams();
@@ -151,7 +151,6 @@ export function PropertyDetail() {
             <strong className="detail-price">{priceFor(property)}</strong>
           </div>
         </div>
-        {property.sample && <SampleNotice />}
         <div
           className={`detail-gallery ${property.images.length <= 1 ? "single-image" : ""}`}
         >
@@ -175,7 +174,7 @@ export function PropertyDetail() {
               </button>
             ))
           ) : (
-            <div className="empty-state">Photography will be added here.</div>
+            <div className="empty-state">No photography is available for this property.</div>
           )}
         </div>
         {property.images.length > 0 && (

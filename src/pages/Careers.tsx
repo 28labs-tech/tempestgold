@@ -78,7 +78,7 @@ export function Careers() {
                 ? "Opportunities temporarily unavailable"
                 : "No verified vacancies are listed yet"
             }
-            text="Confirmed openings will be added here. Contact details for recruitment will be published when available."
+            text="Tempest Gold is not currently advertising a vacancy through this website."
           />
         )}
       </section>

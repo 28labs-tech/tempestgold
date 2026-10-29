@@ -1972,6 +1972,7 @@ input[type="checkbox"] {
   }
 }
 @media (max-width: 600px) {
+  .service-grid,
   .pillar-grid,
   .proof-grid,
   .client-groups,
@@ -1989,5 +1990,125 @@ input[type="checkbox"] {
   }
   .splash-top-right {
     display: none;
+  }
+}
+
+/* Balanced pre-launch palette and consent presentation */
+.section-light,
+.light-panel,
+.leadership-profile {
+  background: #f4f0e7;
+  color: #171814;
+}
+.light-panel {
+  width: 100%;
+  max-width: none;
+  padding-inline: max(48px, calc((100vw - 1280px) / 2));
+}
+.section-light .section-description,
+.light-panel .section-description,
+.leadership-profile p,
+.light-panel .client-groups p,
+.light-panel .recognition-grid p {
+  color: #54544e;
+}
+.section-light .proof-grid article,
+.light-panel .client-groups article,
+.light-panel .recognition-grid article {
+  background: #fffdf8;
+  color: #171814;
+  border-color: #d8ceb4;
+}
+.section-light .proof-grid span,
+.light-panel .research-topics span {
+  color: #363832;
+}
+.light-panel .client-groups {
+  background: #d8ceb4;
+}
+.leadership-profile {
+  border-block: 1px solid #d8ceb4;
+}
+.leadership-profile-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: start;
+}
+.leadership-profile h2 {
+  font-size: clamp(2.4rem, 5vw, 5rem);
+  line-height: 1.02;
+}
+.leadership-profile p {
+  font-size: 1rem;
+  line-height: 1.9;
+}
+.button-text-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #f5f1e7;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.8rem 0.4rem;
+}
+.button-text-light:hover {
+  color: #d4af37;
+}
+.consent-label {
+  align-items: flex-start;
+}
+.consent-label input {
+  flex: 0 0 auto;
+  margin-top: 0.25rem;
+}
+.consent-label span {
+  display: block;
+}
+.cookie-notice {
+  position: fixed;
+  z-index: 80;
+  inset: auto 1.25rem 1.25rem;
+  max-width: 760px;
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: end;
+  padding: 1.5rem;
+  background: #f4f0e7;
+  color: #171814;
+  border: 1px solid #c9a84c;
+  box-shadow: 0 20px 60px #0008;
+}
+.cookie-notice h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+.cookie-notice p {
+  margin: 0;
+  color: #4c4c47;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+.cookie-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+.cookie-actions .text-link {
+  justify-content: center;
+}
+@media (max-width: 720px) {
+  .light-panel {
+    padding-inline: 24px;
+  }
+  .leadership-profile-grid,
+  .cookie-notice {
+    grid-template-columns: 1fr;
+  }
+  .cookie-notice {
+    inset: auto 0.75rem 0.75rem;
   }
 }

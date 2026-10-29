@@ -9,6 +9,9 @@ export type Enquiry = {
   intent: string;
   message: string;
   consent: boolean;
+  consentVersion: string;
+  consentTimestamp: string;
+  marketingConsent: boolean;
 };
 export async function sendEnquiry(enquiry: Enquiry) {
   try {

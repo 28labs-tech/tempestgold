@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { services } from "../data/consultancy";
 import { sendEnquiry } from "../api/enquiries";
+import {
+  CONSENT_VERSION,
+  enquiryConsent,
+  marketingConsent,
+} from "../data/consent";
 export function EnquiryForm({
   property,
   service = "",
@@ -39,6 +44,9 @@ export function EnquiryForm({
             intent,
             message: String(data.get("message") || ""),
             consent: true,
+            consentVersion: CONSENT_VERSION,
+            consentTimestamp: new Date().toISOString(),
+            marketingConsent: data.get("marketingConsent") === "on",
           });
           setReference(result.reference);
           setCaptured(result.status === "captured");
@@ -92,8 +100,17 @@ export function EnquiryForm({
         <Link to="/privacy"> Read the privacy notice.</Link>
       </p>
       <label className="consent-label">
-        <input type="checkbox" required />I understand how my enquiry details
-        will be used.
+        <input name="consent" type="checkbox" required />
+        <span>
+          <strong>Required.</strong> {enquiryConsent}{" "}
+          <Link to="/privacy">Privacy Notice</Link>
+        </span>
+      </label>
+      <label className="consent-label">
+        <input name="marketingConsent" type="checkbox" />
+        <span>
+          <strong>Optional.</strong> {marketingConsent}
+        </span>
       </label>
       <button
         className="button-gold"

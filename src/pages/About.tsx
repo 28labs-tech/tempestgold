@@ -75,22 +75,43 @@ export function About() {
           ))}
         </div>
       </section>
+      <section className="section-pad leadership-profile">
+        <div className="site-container leadership-profile-grid">
+          <div>
+            <p className="eyebrow">Founder and Managing Director</p>
+            <h2>Dr Neltah Tshepiso Mokgware-Monosi</h2>
+          </div>
+          <div>
+            <p>
+              Dr Mokgware-Monosi combines real estate practice, market research,
+              teaching and industry leadership. Her published company profile
+              records a BA in Economics and Accounting, an MSc in Project
+              Management and a PhD in Real Estate, together with contributions
+              to professional networks in Botswana, Africa and internationally.
+            </p>
+            <p>
+              Her work supports Tempest Gold's evidence-led approach to
+              valuation, market intelligence, development and strategic
+              property decisions.
+            </p>
+            <a
+              href="/documents/Tempest-Gold-Company-Profile-2026.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="text-link"
+            >
+              View the Company Profile →
+            </a>
+          </div>
+        </div>
+      </section>
       <section className="section-pad site-container pt-0">
         <div className="info-panel">
           <h2>Professional information</h2>
           <p>
-            {companyContact.registration ||
-              "Company registration details will be published after verification."}
+            {companyContact.registration}
           </p>
-          {companyContact.credentials?.length ? (
-            companyContact.credentials.map((c) => <p key={c}>{c}</p>)
-          ) : (
-            <p>
-              Professional credentials and memberships will be added when
-              confirmed. No unverified awards, memberships or staff credentials
-              are claimed.
-            </p>
-          )}
+          {companyContact.credentials?.map((c) => <p key={c}>{c}</p>)}
           <Link to="/team" className="text-link">
             Our Team →
           </Link>

@@ -60,13 +60,14 @@ export function Home() {
           <h1>
             Property Intelligence.
             <br />
-            Strategic Advice.
+            Strategic Advisory.
             <br />
-            <em>Better Decisions.</em>
+            <em>Real Results.</em>
           </h1>
           <p className="hero-description">
-            Professional real estate advisory and property solutions that create
-            value for a better Botswana.
+            Tempest Gold delivers real estate advisory, valuation, market
+            intelligence and property solutions that support informed
+            decisions, sustainable value creation and strategic investment.
           </p>
           <div className="button-row">
             <Link to="/contact" className="button-gold">
@@ -74,6 +75,9 @@ export function Home() {
             </Link>
             <Link to="/services" className="button-outline">
               Explore Our Services
+            </Link>
+            <Link to="/research" className="button-text-light">
+              View Our Insights <ArrowUpRight size={17} />
             </Link>
           </div>
           <div className="hero-foot">
@@ -134,7 +138,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="why-section section-pad">
+      <section className="why-section section-pad section-light">
         <div className="site-container">
           <SectionHeading
             eyebrow="Why Tempest Gold"
@@ -162,20 +166,20 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section-pad site-container">
+      <section className="section-pad site-container light-panel">
         <SectionHeading
-          eyebrow="Selected clients and partners"
-          title="Trusted by Organisations Across Botswana"
-          text="Our experience spans property, financial services, development, academia and the broader built environment."
+          eyebrow="Sector experience"
+          title="Experience across property and the built environment"
+          text="The company profile records assignments across financial services, property companies, development, professional services and academic research. Client identities, logos and project details will be displayed only after publication approval."
         />
         <div className="client-groups">
-          {clients.map(([category, ...names], index) => {
+          {clients.map(([category], index) => {
             const Icon = clientIcons[index];
             return (
               <article key={category}>
                 <Icon aria-hidden="true" />
                 <h3>{category}</h3>
-                <p>{names.join(" · ")}</p>
+                <p>Selected organisations subject to disclosure approval.</p>
               </article>
             );
           })}
@@ -200,14 +204,14 @@ export function Home() {
             </Link>
           ) : (
             <EmptyState
-              title="Project details are being prepared"
-              text="The company profile confirms experience across market research, transactions, valuations, advisory and property management. Assignment details will be published after client approval."
+              title="No case studies are currently published"
+              text="The company profile records experience across market research, transactions, valuations, advisory and property management. Project details remain private until publication approval is confirmed."
             />
           )}
         </div>
       </section>
 
-      <section className="section-pad site-container">
+      <section className="section-pad site-container light-panel">
         <div className="section-row">
           <SectionHeading
             eyebrow="Property intelligence"
@@ -235,9 +239,9 @@ export function Home() {
             title={
               research.loading
                 ? "Loading research…"
-                : "Research publications will be added here"
+                : "No research publications are currently available"
             }
-            text="Published Botswana market reports and insights will appear here when available."
+            text="Discuss current market-research requirements directly with the advisory team."
           />
         )}
       </section>
@@ -278,11 +282,11 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section-pad site-container leadership-section">
+      <section className="section-pad site-container leadership-section light-panel">
         <SectionHeading
           eyebrow="Leadership, fellowships and recognition"
-          title="Investing in Knowledge. Driving Impact."
-          text="Founder and Managing Director Dr Neltah Tshepiso Mokgware-Monosi combines property practice, research and industry leadership."
+          title="Investing in knowledge. Driving impact."
+          text="Founder and Managing Director Dr Neltah Tshepiso Mokgware-Monosi combines property practice, research and industry leadership. Her profile includes qualifications in economics and accounting, project management and real estate, alongside professional and academic contributions to the built environment."
         />
         <div className="recognition-grid">
           <article>

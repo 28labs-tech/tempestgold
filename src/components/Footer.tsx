@@ -33,9 +33,8 @@ export function Footer() {
             {[
               ["About Us", "/about"],
               ["Services", "/services"],
-              ["Properties", "/properties"],
-              ["Research & Insights", "/research"],
-              ["Projects / Case Studies", "/projects"],
+              ["Projects", "/projects"],
+              ["Insights", "/research"],
               ["Our Team", "/team"],
               ["Careers", "/careers"],
               ["Press", "/press"],
@@ -77,10 +76,7 @@ export function Footer() {
               </>
             )}
             <h2>Professional information</h2>
-            <p>
-              {companyContact.registration ||
-                "Company registration details pending verification."}
-            </p>
+            <p>{companyContact.registration}</p>
             {companyContact.credentials?.map((c) => (
               <p key={c}>{c}</p>
             ))}
@@ -88,12 +84,20 @@ export function Footer() {
         </div>
         <div className="footer-bottom">
           <p>
-            © {new Date().getFullYear()} Tempest Gold Property. All rights
-            reserved.
+            © {new Date().getFullYear()} Tempest Gold Property (Pty) Ltd. All
+            rights reserved.
           </p>
           <nav aria-label="Legal and administration">
-            <Link to="/privacy">Privacy</Link>
-            <Link to="/terms">Terms</Link>
+            <Link to="/privacy">Privacy Notice</Link>
+            <a
+              href="/documents/Botswana-Data-Protection-Act.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Data Protection
+            </a>
+            <Link to="/cookies">Cookie Notice</Link>
+            <Link to="/terms">Terms &amp; Conditions</Link>
             <Link to="/property-disclaimer">Property Disclaimer</Link>
             <Link to="/admin/login">Admin</Link>
           </nav>
